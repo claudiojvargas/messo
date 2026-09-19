@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Messo</title>
+  <desc id="description">Sacola de compras branca sobre fundo verde.</desc>
+  <rect width="512" height="512" rx="96" fill="#196b52" />
+  <path
+    d="M160 159h192a32 32 0 0 1 32 32v172a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V191a32 32 0 0 1 32-32Z"
+    fill="#f4fff9"
+  />
+  <path
+    d="M177 159a79 79 0 0 1 158 0"
+    fill="none"
+    stroke="#f4fff9"
+    stroke-width="32"
+    stroke-linecap="round"
+  />
+  <path
+    d="M181 250h150M181 307h121"
+    fill="none"
+    stroke="#196b52"
+    stroke-width="14"
+    stroke-linecap="round"
+  />
+</svg>
