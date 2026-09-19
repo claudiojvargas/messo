@@ -1,5 +1,16 @@
 import { cameraErrorMessage } from './camera-errors'
-import { captureVideoFrame, startCamera, stopCamera, type CapturedImage } from './camera'
+import {
+  captureVideoFrame,
+  listCameraDevices,
+  nextCameraDeviceId,
+  prepareCameraStream,
+  rememberCameraDevice,
+  selectedCameraDeviceId,
+  startCamera,
+  stopCamera,
+  type CameraDevice,
+  type CapturedImage,
+} from './camera'
 
 let activeCamera: Promise<CapturedImage | null> | null = null
 
@@ -24,6 +35,7 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   const loading = requireElement<HTMLElement>(dialog, '[data-camera-loading]')
   const errorMessage = requireElement<HTMLElement>(dialog, '[data-camera-error]')
   const captureButton = requireElement<HTMLButtonElement>(dialog, '[data-camera-capture]')
+  const switchButton = requireElement<HTMLButtonElement>(dialog, '[data-camera-switch]')
   const closeButtons = dialog.querySelectorAll<HTMLButtonElement>('[data-camera-cancel]')
   const reviewActions = requireElement<HTMLElement>(dialog, '[data-camera-review]')
   const retakeButton = requireElement<HTMLButtonElement>(dialog, '[data-camera-retake]')
@@ -33,6 +45,7 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   let capture: CapturedImage | null = null
   let previewUrl: string | null = null
   let settled = false
+  let cameras: CameraDevice[] = []
 
   const releaseStream = (): void => {
     stopCamera(stream)
@@ -59,7 +72,21 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
     resolve(result)
   }
 
+  const connectStream = async (nextStream: MediaStream): Promise<void> => {
+    stream = nextStream
+    video.srcObject = stream
+    await video.play()
+    await prepareCameraStream(stream)
+    rememberCameraDevice(stream)
+  }
+
+  const updateAvailableCameras = async (): Promise<void> => {
+    cameras = await listCameraDevices().catch(() => [])
+    switchButton.hidden = cameras.length < 2
+  }
+
   const showLivePreview = async (): Promise<void> => {
+    loading.textContent = 'Iniciando câmera...'
     loading.hidden = false
     errorMessage.hidden = true
     video.hidden = false
@@ -67,19 +94,20 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
     reviewActions.hidden = true
     captureButton.hidden = false
     captureButton.disabled = true
+    switchButton.hidden = true
 
     try {
-      stream = await startCamera()
+      const nextStream = await startCamera()
+      if (settled) {
+        stopCamera(nextStream)
+        return
+      }
+      await connectStream(nextStream)
       if (settled) {
         releaseStream()
         return
       }
-      video.srcObject = stream
-      await video.play()
-      if (settled) {
-        releaseStream()
-        return
-      }
+      await updateAvailableCameras()
       loading.hidden = true
       captureButton.disabled = false
       captureButton.focus()
@@ -124,12 +152,55 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
       video.hidden = true
       loading.hidden = true
       captureButton.hidden = true
+      switchButton.hidden = true
       reviewActions.hidden = false
       useButton.focus()
     } catch (error) {
       errorMessage.textContent = cameraErrorMessage(error)
       errorMessage.hidden = false
       captureButton.disabled = false
+    }
+  })
+
+  switchButton.addEventListener('click', async () => {
+    if (!stream) return
+    const deviceId = nextCameraDeviceId(cameras, selectedCameraDeviceId(stream))
+    if (!deviceId) return
+
+    switchButton.disabled = true
+    captureButton.disabled = true
+    loading.textContent = 'Trocando câmera...'
+    loading.hidden = false
+    releaseStream()
+    try {
+      const nextStream = await startCamera(deviceId)
+      if (settled) {
+        stopCamera(nextStream)
+        return
+      }
+      await connectStream(nextStream)
+      await updateAvailableCameras()
+      loading.hidden = true
+      captureButton.disabled = false
+    } catch (error) {
+      releaseStream()
+      try {
+        const fallbackStream = await startCamera()
+        if (settled) {
+          stopCamera(fallbackStream)
+          return
+        }
+        await connectStream(fallbackStream)
+        await updateAvailableCameras()
+        loading.hidden = true
+        captureButton.disabled = false
+      } catch {
+        errorMessage.textContent = cameraErrorMessage(error)
+        errorMessage.hidden = false
+        loading.hidden = true
+      }
+    } finally {
+      switchButton.disabled = false
     }
   })
 
@@ -170,6 +241,7 @@ function cameraTemplate(): string {
       </div>
       <footer class="camera-footer">
         <button class="camera-capture-button" type="button" data-camera-capture aria-label="Capturar foto" disabled><span aria-hidden="true"></span></button>
+        <button class="min-h-11 rounded-xl px-4 text-sm font-bold text-stone-200 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-white disabled:opacity-50" type="button" data-camera-switch hidden>Trocar câmera</button>
         <div class="grid w-full grid-cols-2 gap-3" data-camera-review hidden>
           <button class="camera-secondary-button" type="button" data-camera-retake>Tirar novamente</button>
           <button class="camera-primary-button" type="button" data-camera-use>Usar foto</button>

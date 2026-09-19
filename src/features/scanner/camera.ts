@@ -15,6 +15,13 @@ const preferredConstraints: MediaStreamConstraints = {
   },
 }
 
+let preferredDeviceId: string | null = null
+
+export interface CameraDevice {
+  deviceId: string
+  label: string
+}
+
 type AdvancedTrackCapabilities = MediaTrackCapabilities & {
   focusMode?: string[]
   zoom?: MediaSettingsRange
@@ -35,21 +42,27 @@ export interface FocusConfigurationResult {
   error?: unknown
 }
 
-export async function startCamera(): Promise<MediaStream> {
+export async function startCamera(deviceId?: string): Promise<MediaStream> {
   if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
     throw new CameraError('unsupported', 'Camera API is not available in this context.')
   }
 
+  const requestedDeviceId = deviceId ?? preferredDeviceId
+  if (requestedDeviceId) {
+    try {
+      return await navigator.mediaDevices.getUserMedia(cameraConstraints(requestedDeviceId))
+    } catch (error) {
+      if (deviceId) throw error
+      preferredDeviceId = null
+    }
+  }
+
   try {
-    const stream = await navigator.mediaDevices.getUserMedia(preferredConstraints)
-    await prepareCameraStream(stream)
-    return stream
+    return await navigator.mediaDevices.getUserMedia(preferredConstraints)
   } catch (error) {
     if (error instanceof DOMException && error.name === 'OverconstrainedError') {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true })
-        await prepareCameraStream(stream)
-        return stream
+        return await navigator.mediaDevices.getUserMedia({ audio: false, video: true })
       } catch (fallbackError) {
         throw new CameraError('constraints', 'No compatible camera constraints.', { cause: fallbackError })
       }
@@ -58,7 +71,18 @@ export async function startCamera(): Promise<MediaStream> {
   }
 }
 
-async function prepareCameraStream(stream: MediaStream): Promise<void> {
+function cameraConstraints(deviceId: string): MediaStreamConstraints {
+  return {
+    audio: false,
+    video: {
+      deviceId: { exact: deviceId },
+      width: { ideal: 1920 },
+      height: { ideal: 1080 },
+    },
+  }
+}
+
+export async function prepareCameraStream(stream: MediaStream): Promise<void> {
   const track = stream.getVideoTracks()[0]
   if (!track) return
 
@@ -69,6 +93,28 @@ async function prepareCameraStream(stream: MediaStream): Promise<void> {
   }
   const focus = await enableContinuousFocus(track)
   logCameraDiagnostics(track, focus)
+}
+
+export async function listCameraDevices(): Promise<CameraDevice[]> {
+  if (!navigator.mediaDevices?.enumerateDevices) return []
+  const devices = await navigator.mediaDevices.enumerateDevices()
+  return devices
+    .filter((device) => device.kind === 'videoinput' && device.deviceId)
+    .map(({ deviceId, label }) => ({ deviceId, label }))
+}
+
+export function rememberCameraDevice(stream: MediaStream): void {
+  preferredDeviceId = stream.getVideoTracks()[0]?.getSettings().deviceId ?? null
+}
+
+export function selectedCameraDeviceId(stream: MediaStream): string | null {
+  return stream.getVideoTracks()[0]?.getSettings().deviceId ?? null
+}
+
+export function nextCameraDeviceId(devices: readonly CameraDevice[], currentDeviceId: string | null): string | null {
+  if (devices.length < 2) return null
+  const currentIndex = devices.findIndex(({ deviceId }) => deviceId === currentDeviceId)
+  return devices[(currentIndex + 1) % devices.length]?.deviceId ?? null
 }
 
 export async function enableContinuousFocus(track: MediaStreamTrack): Promise<FocusConfigurationResult> {

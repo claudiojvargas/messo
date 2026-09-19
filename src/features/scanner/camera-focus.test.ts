@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { enableContinuousFocus } from './camera'
+import { enableContinuousFocus, nextCameraDeviceId } from './camera'
 
 function cameraTrack(
   focusMode: string[] | undefined,
@@ -43,5 +43,22 @@ describe('enableContinuousFocus', () => {
       applied: false,
       error,
     })
+  })
+})
+
+describe('nextCameraDeviceId', () => {
+  const cameras = [
+    { deviceId: 'rear-main', label: 'Back camera' },
+    { deviceId: 'rear-wide', label: 'Back camera 2' },
+    { deviceId: 'front', label: 'Front camera' },
+  ]
+
+  it('cycles only when the user requests another available camera', () => {
+    expect(nextCameraDeviceId(cameras, 'rear-main')).toBe('rear-wide')
+    expect(nextCameraDeviceId(cameras, 'front')).toBe('rear-main')
+  })
+
+  it('does not offer switching when only one camera exists', () => {
+    expect(nextCameraDeviceId(cameras.slice(0, 1), 'rear-main')).toBeNull()
   })
 })
