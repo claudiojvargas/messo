@@ -1,8 +1,8 @@
 import { cameraErrorMessage } from './camera-errors'
 import {
   captureVideoFrame,
+  cameraDeviceDisplayName,
   listCameraDevices,
-  nextCameraDeviceId,
   prepareCameraStream,
   rememberCameraDevice,
   selectedCameraDeviceId,
@@ -35,7 +35,8 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   const loading = requireElement<HTMLElement>(dialog, '[data-camera-loading]')
   const errorMessage = requireElement<HTMLElement>(dialog, '[data-camera-error]')
   const captureButton = requireElement<HTMLButtonElement>(dialog, '[data-camera-capture]')
-  const switchButton = requireElement<HTMLButtonElement>(dialog, '[data-camera-switch]')
+  const cameraSelector = requireElement<HTMLElement>(dialog, '[data-camera-selector]')
+  const cameraSelect = requireElement<HTMLSelectElement>(dialog, '[data-camera-select]')
   const closeButtons = dialog.querySelectorAll<HTMLButtonElement>('[data-camera-cancel]')
   const reviewActions = requireElement<HTMLElement>(dialog, '[data-camera-review]')
   const retakeButton = requireElement<HTMLButtonElement>(dialog, '[data-camera-retake]')
@@ -82,7 +83,17 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
 
   const updateAvailableCameras = async (): Promise<void> => {
     cameras = await listCameraDevices().catch(() => [])
-    switchButton.hidden = cameras.length < 2
+    cameraSelect.replaceChildren(...cameras.map((camera, index) => {
+      const option = document.createElement('option')
+      option.value = camera.deviceId
+      option.textContent = cameraDeviceDisplayName(camera, index)
+      return option
+    }))
+    const currentDeviceId = stream ? selectedCameraDeviceId(stream) : null
+    if (currentDeviceId && cameras.some(({ deviceId }) => deviceId === currentDeviceId)) {
+      cameraSelect.value = currentDeviceId
+    }
+    cameraSelector.hidden = cameras.length < 2
   }
 
   const showLivePreview = async (): Promise<void> => {
@@ -94,7 +105,7 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
     reviewActions.hidden = true
     captureButton.hidden = false
     captureButton.disabled = true
-    switchButton.hidden = true
+    cameraSelector.hidden = true
 
     try {
       const nextStream = await startCamera()
@@ -152,7 +163,7 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
       video.hidden = true
       loading.hidden = true
       captureButton.hidden = true
-      switchButton.hidden = true
+      cameraSelector.hidden = true
       reviewActions.hidden = false
       useButton.focus()
     } catch (error) {
@@ -162,12 +173,11 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
     }
   })
 
-  switchButton.addEventListener('click', async () => {
-    if (!stream) return
-    const deviceId = nextCameraDeviceId(cameras, selectedCameraDeviceId(stream))
-    if (!deviceId) return
+  cameraSelect.addEventListener('change', async () => {
+    if (!stream || !cameraSelect.value || cameraSelect.value === selectedCameraDeviceId(stream)) return
+    const deviceId = cameraSelect.value
 
-    switchButton.disabled = true
+    cameraSelect.disabled = true
     captureButton.disabled = true
     loading.textContent = 'Trocando câmera...'
     loading.hidden = false
@@ -200,7 +210,7 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
         loading.hidden = true
       }
     } finally {
-      switchButton.disabled = false
+      cameraSelect.disabled = false
     }
   })
 
@@ -241,7 +251,7 @@ function cameraTemplate(): string {
       </div>
       <footer class="camera-footer">
         <button class="camera-capture-button" type="button" data-camera-capture aria-label="Capturar foto" disabled><span aria-hidden="true"></span></button>
-        <button class="min-h-11 rounded-xl px-4 text-sm font-bold text-stone-200 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-white disabled:opacity-50" type="button" data-camera-switch hidden>Trocar câmera</button>
+        <div class="grid w-full max-w-sm gap-1.5" data-camera-selector hidden><label class="text-xs font-bold uppercase tracking-wider text-stone-300" for="camera-device-select">Câmera</label><select id="camera-device-select" class="min-h-11 w-full rounded-xl border border-white/25 bg-stone-900 px-3 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:opacity-50" data-camera-select></select></div>
         <div class="grid w-full grid-cols-2 gap-3" data-camera-review hidden>
           <button class="camera-secondary-button" type="button" data-camera-retake>Tirar novamente</button>
           <button class="camera-primary-button" type="button" data-camera-use>Usar foto</button>

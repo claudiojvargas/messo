@@ -111,10 +111,9 @@ export function selectedCameraDeviceId(stream: MediaStream): string | null {
   return stream.getVideoTracks()[0]?.getSettings().deviceId ?? null
 }
 
-export function nextCameraDeviceId(devices: readonly CameraDevice[], currentDeviceId: string | null): string | null {
-  if (devices.length < 2) return null
-  const currentIndex = devices.findIndex(({ deviceId }) => deviceId === currentDeviceId)
-  return devices[(currentIndex + 1) % devices.length]?.deviceId ?? null
+export function cameraDeviceDisplayName(device: CameraDevice, index: number): string {
+  const label = device.label.trim()
+  return label ? `Câmera ${index + 1} — ${label}` : `Câmera ${index + 1}`
 }
 
 export async function enableContinuousFocus(track: MediaStreamTrack): Promise<FocusConfigurationResult> {

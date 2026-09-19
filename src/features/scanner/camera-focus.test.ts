@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { enableContinuousFocus, nextCameraDeviceId } from './camera'
+import { cameraDeviceDisplayName, enableContinuousFocus } from './camera'
 
 function cameraTrack(
   focusMode: string[] | undefined,
@@ -46,19 +46,13 @@ describe('enableContinuousFocus', () => {
   })
 })
 
-describe('nextCameraDeviceId', () => {
-  const cameras = [
-    { deviceId: 'rear-main', label: 'Back camera' },
-    { deviceId: 'rear-wide', label: 'Back camera 2' },
-    { deviceId: 'front', label: 'Front camera' },
-  ]
-
-  it('cycles only when the user requests another available camera', () => {
-    expect(nextCameraDeviceId(cameras, 'rear-main')).toBe('rear-wide')
-    expect(nextCameraDeviceId(cameras, 'front')).toBe('rear-main')
+describe('cameraDeviceDisplayName', () => {
+  it('keeps the browser label visible so cameras can be identified', () => {
+    expect(cameraDeviceDisplayName({ deviceId: 'rear-main', label: 'Back camera' }, 1))
+      .toBe('Câmera 2 — Back camera')
   })
 
-  it('does not offer switching when only one camera exists', () => {
-    expect(nextCameraDeviceId(cameras.slice(0, 1), 'rear-main')).toBeNull()
+  it('uses a numbered fallback when the browser omits the label', () => {
+    expect(cameraDeviceDisplayName({ deviceId: 'anonymous', label: ' ' }, 0)).toBe('Câmera 1')
   })
 })
