@@ -1,9 +1,9 @@
 import type { CapturedImage } from '../camera'
-import { extractPriceCandidates, type PriceCandidate } from './price-candidates'
 import { formatCurrency } from '../../shopping-list/price'
 import { normalizeProductName } from '../../shopping-list/product'
 import type { OcrProgress, OcrResult } from './ocr-types'
-import { extractProductName } from './product-name'
+import { parseLabel } from './label-parser'
+import type { ParsedPrice, PriceType } from './label-parser-types'
 
 export type OcrDecision =
   | { action: 'add'; name: string; unitPriceCents: number }
@@ -26,6 +26,7 @@ export async function openOcrResult(
   const candidateList = requireElement<HTMLElement>(dialog, '[data-ocr-list]')
   const nameInput = requireElement<HTMLInputElement>(dialog, '#ocr-product-name')
   const nameError = requireElement<HTMLElement>(dialog, '#ocr-product-name-error')
+  const warningPanel = requireElement<HTMLElement>(dialog, '[data-ocr-warning]')
   const emptyPanel = requireElement<HTMLElement>(dialog, '[data-ocr-empty]')
   const errorPanel = requireElement<HTMLElement>(dialog, '[data-ocr-error]')
   const addButton = requireElement<HTMLButtonElement>(dialog, '[data-ocr-add]')
@@ -34,8 +35,7 @@ export async function openOcrResult(
   const manualButtons = dialog.querySelectorAll<HTMLButtonElement>('[data-ocr-manual]')
 
   let sourceImage: CapturedImage | null = capturedImage
-  let rawText = ''
-  let candidates: PriceCandidate[] = []
+  let candidates: ParsedPrice[] = []
   let attempt = 0
   let settled = false
   let submitting = false
@@ -50,7 +50,6 @@ export async function openOcrResult(
     settled = true
     attempt += 1
     sourceImage = null
-    rawText = ''
     candidates = []
     dialog.close()
     dialog.remove()
@@ -69,12 +68,14 @@ export async function openOcrResult(
   }
 
   const showCandidates = (ocrResult: OcrResult): void => {
-    rawText = ocrResult.text
-    candidates = extractPriceCandidates(rawText)
-    nameInput.value = extractProductName(rawText, ocrResult.lines) ?? ''
+    const parsed = parseLabel(ocrResult)
+    candidates = parsed.prices
+    nameInput.value = parsed.product?.name ?? ''
     nameInput.removeAttribute('aria-invalid')
     nameError.textContent = ''
     processing.hidden = true
+    warningPanel.hidden = parsed.warnings.length === 0
+    warningPanel.textContent = parsed.warnings.join(' ')
 
     if (candidates.length === 0) {
       emptyPanel.hidden = false
@@ -84,7 +85,7 @@ export async function openOcrResult(
 
     candidateList.innerHTML = candidates.map(candidateTemplate).join('')
     candidatesPanel.hidden = false
-    addButton.disabled = false
+    addButton.disabled = parsed.warnings.length > 0
     nameInput.focus()
   }
 
@@ -148,12 +149,32 @@ export async function openOcrResult(
   return result
 }
 
-function candidateTemplate(candidate: PriceCandidate, index: number): string {
+function candidateTemplate(candidate: ParsedPrice, index: number): string {
   return `
     <label class="ocr-candidate">
       <input class="size-5 accent-brand-700" type="radio" name="ocr-price" value="${candidate.valueCents}" ${index === 0 ? 'checked' : ''}>
-      <span class="min-w-0"><span class="block text-lg font-extrabold text-stone-900 dark:text-white">${formatCurrency(candidate.valueCents)}</span><span class="block truncate text-xs text-stone-500 dark:text-stone-400">${escapeHtml(candidate.line)}</span></span>
+      <span class="min-w-0"><span class="block text-lg font-extrabold text-stone-900 dark:text-white">${formatCurrency(candidate.valueCents)}${priceUnitLabel(candidate)}</span><span class="block text-xs font-semibold text-brand-700 dark:text-emerald-300">${priceTypeLabel(candidate.type)}</span><span class="block truncate text-xs text-stone-500 dark:text-stone-400">${escapeHtml(candidate.sourceText)}</span></span>
     </label>`
+}
+
+function priceUnitLabel(price: ParsedPrice): string {
+  if (price.unit === 'KG') return '/kg'
+  if (price.unit === '100G') return '/100 g'
+  if (price.unit === 'UNIT') return ' cada'
+  return ''
+}
+
+function priceTypeLabel(type: PriceType): string {
+  const labels: Record<PriceType, string> = {
+    REGULAR_PRICE: 'Preço normal',
+    PROMOTIONAL_PRICE: 'Preço promocional',
+    UNIT_PRICE: 'Preço unitário',
+    PRICE_PER_KG: 'Preço por kg',
+    PRICE_PER_100G: 'Preço por 100 g',
+    WEIGHTED_TOTAL: 'Total da pesagem',
+    UNKNOWN: 'Tipo de preço não confirmado',
+  }
+  return labels[type]
 }
 
 function requireElement<T extends Element>(parent: ParentNode, selector: string): T {
@@ -172,7 +193,7 @@ function ocrTemplate(): string {
       <header class="flex items-start justify-between gap-4 border-b border-stone-200 px-5 py-5 dark:border-stone-700"><div><p class="text-xs font-bold uppercase tracking-[0.15em] text-brand-700 dark:text-emerald-300">Leitura local</p><h2 id="ocr-title" class="mt-1 text-xl font-bold">Confira o produto</h2></div><button class="grid size-11 shrink-0 place-items-center rounded-full text-stone-500 hover:bg-stone-100 focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-stone-300 dark:hover:bg-stone-800" type="button" data-ocr-manual aria-label="Fechar e digitar produto manualmente"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"/></svg></button></header>
       <div class="min-h-0 flex-1 overflow-y-auto px-5 py-6">
         <section class="grid min-h-48 place-items-center text-center" data-ocr-processing aria-live="polite"><div><span class="ocr-spinner" aria-hidden="true"></span><p class="mt-5 font-bold" data-ocr-progress>Preparando leitura...</p><p class="mt-2 text-sm text-stone-500 dark:text-stone-400">A primeira leitura pode levar um pouco mais.</p></div></section>
-        <section data-ocr-candidates hidden><div class="mb-5"><label class="mb-2 block text-sm font-semibold text-stone-700" for="ocr-product-name">Nome do produto</label><input class="field" id="ocr-product-name" type="text" autocomplete="off" aria-describedby="ocr-product-name-error"><p class="error-message" id="ocr-product-name-error" aria-live="polite"></p></div><p class="mb-3 text-sm font-semibold text-stone-700 dark:text-stone-200">Preço encontrado</p><fieldset class="grid gap-3" data-ocr-list><legend class="sr-only">Preços encontrados</legend></fieldset><button class="camera-primary-button mt-5 w-full" type="button" data-ocr-add disabled>Adicionar produto</button></section>
+        <section data-ocr-candidates hidden><div class="mb-5"><label class="mb-2 block text-sm font-semibold text-stone-700" for="ocr-product-name">Nome do produto</label><input class="field" id="ocr-product-name" type="text" autocomplete="off" aria-describedby="ocr-product-name-error"><p class="error-message" id="ocr-product-name-error" aria-live="polite"></p></div><p class="mb-3 text-sm font-semibold text-stone-700 dark:text-stone-200">Preços encontrados</p><p class="mb-4 rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-900 dark:bg-amber-950/40 dark:text-amber-100" data-ocr-warning role="alert" hidden></p><fieldset class="grid gap-3" data-ocr-list><legend class="sr-only">Preços encontrados</legend></fieldset><button class="camera-primary-button mt-5 w-full" type="button" data-ocr-add disabled>Adicionar produto</button></section>
         <section class="rounded-2xl bg-stone-100 p-5 text-center dark:bg-stone-800" data-ocr-empty hidden><h3 class="font-bold">Nenhum preço encontrado</h3><p class="mt-2 text-sm leading-6 text-stone-600 dark:text-stone-300">Não encontramos um preço com segurança nesta foto.</p></section>
         <section class="rounded-2xl bg-red-50 p-5 text-center text-red-900 dark:bg-red-950/40 dark:text-red-100" data-ocr-error role="alert" hidden><h3 class="font-bold">Não foi possível ler esta imagem</h3><p class="mt-2 text-sm leading-6">Tente a leitura novamente ou tire outra foto.</p><button class="mt-4 min-h-11 rounded-xl border border-red-300 px-4 text-sm font-bold focus-visible:outline-2 focus-visible:outline-red-700 dark:border-red-700" type="button" data-ocr-retry>Tentar leitura novamente</button></section>
       </div>

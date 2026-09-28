@@ -107,6 +107,7 @@ function classifyLine(sourceLine: string, index: number): CandidateLine | null {
   value = value.replace(/^(?:OFERTA|PROMOÇÃO|PROMOCAO)\b[\s:–—-]*/iu, '')
   value = stripEdgePunctuation(normalizeWhitespace(value))
   if (!value || !/\p{L}/u.test(value)) return null
+  if (/^\/?\s*(?:100\s*)?(?:G|KG|L|ML|UN(?:IDADES?)?)$/iu.test(value)) return null
 
   const comparable = comparableText(value)
   if (promotionalLines.has(comparable) || isClearlyIrrelevant(value)) return null
