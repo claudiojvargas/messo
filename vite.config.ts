@@ -24,7 +24,7 @@ export default defineConfig({
         short_name: 'Messo',
         description: 'Sua calculadora de compras simples e organizada.',
         lang: 'pt-BR',
-        start_url: '/',
+        start_url: '/app',
         scope: '/',
         display: 'standalone',
         theme_color: '#196b52',
