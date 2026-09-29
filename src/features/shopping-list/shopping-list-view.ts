@@ -16,6 +16,7 @@ import { showToast } from '../../ui/toast'
 import { scanPrice } from '../scanner/scan-price'
 import { confirmClearShoppingList } from './clear-list-dialog'
 import { mountProductSuggestions } from '../suggestions/suggestions-view'
+import { PRODUCT_CATALOG } from '../suggestions/product-catalog'
 
 export function mountShoppingList(container: HTMLElement): void {
   container.innerHTML = pageTemplate()
@@ -141,7 +142,10 @@ export function mountShoppingList(container: HTMLElement): void {
     cameraButton.disabled = true
     cameraButton.setAttribute('aria-busy', 'true')
     try {
-      const result = await scanPrice(cameraButton)
+      const result = await scanPrice(cameraButton, [
+        ...products.map(({ name }) => name),
+        ...PRODUCT_CATALOG,
+      ])
       if (result.status === 'product') {
         addProductToShoppingList({
           name: result.name,

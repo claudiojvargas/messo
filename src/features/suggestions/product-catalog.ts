@@ -3,6 +3,7 @@ export const PRODUCT_CATALOG = [
   'Achocolatado em pó',
   'Achocolatado líquido',
   'Café em cápsulas',
+  'Café 500g',
   'Café em pó 250g',
   'Café em pó 500g',
   'Café solúvel',
@@ -18,6 +19,7 @@ export const PRODUCT_CATALOG = [
   'Açúcar demerara',
   'Açúcar mascavo',
   'Açúcar refinado',
+  'Açúcar 1kg',
   'Amido de milho',
   'Aveia em flocos',
   'Aveia em flocos finos',
@@ -42,6 +44,7 @@ export const PRODUCT_CATALOG = [
   'Gelatina sem sabor',
 
   // Arroz, feijão e grãos
+  'Arroz 5kg',
   'Arroz branco 1kg',
   'Arroz branco 5kg',
   'Arroz integral',
@@ -155,6 +158,7 @@ export const PRODUCT_CATALOG = [
   'Rapadura',
 
   // Leite e laticínios
+  'Leite 1L',
   'Leite integral',
   'Leite integral 1L',
   'Leite desnatado',

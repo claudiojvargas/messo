@@ -4,6 +4,7 @@ import { normalizeProductName } from '../../shopping-list/product'
 import type { OcrProgress, OcrResult } from './ocr-types'
 import { parseLabel } from './label-parser'
 import type { ParsedPrice, PriceType } from './label-parser-types'
+import { resolveProductName } from '../../products/product-resolver'
 
 export type OcrDecision =
   | { action: 'add'; name: string; unitPriceCents: number }
@@ -13,6 +14,7 @@ export type OcrDecision =
 export async function openOcrResult(
   capturedImage: CapturedImage,
   trigger: HTMLElement,
+  productCatalog: readonly string[],
 ): Promise<OcrDecision> {
   const dialog = document.createElement('dialog')
   dialog.className = 'ocr-dialog'
@@ -26,6 +28,11 @@ export async function openOcrResult(
   const candidateList = requireElement<HTMLElement>(dialog, '[data-ocr-list]')
   const nameInput = requireElement<HTMLInputElement>(dialog, '#ocr-product-name')
   const nameError = requireElement<HTMLElement>(dialog, '#ocr-product-name-error')
+  const resolutionPanel = requireElement<HTMLElement>(dialog, '[data-product-resolution]')
+  const rawNameLabel = requireElement<HTMLElement>(dialog, '[data-product-raw-name]')
+  const suggestionList = requireElement<HTMLElement>(dialog, '[data-product-suggestions]')
+  const resolutionMessage = requireElement<HTMLElement>(dialog, '[data-product-resolution-message]')
+  const rejectSuggestionsButton = requireElement<HTMLButtonElement>(dialog, '[data-product-reject-suggestions]')
   const warningPanel = requireElement<HTMLElement>(dialog, '[data-ocr-warning]')
   const emptyPanel = requireElement<HTMLElement>(dialog, '[data-ocr-empty]')
   const errorPanel = requireElement<HTMLElement>(dialog, '[data-ocr-error]')
@@ -69,8 +76,19 @@ export async function openOcrResult(
 
   const showCandidates = (ocrResult: OcrResult): void => {
     const parsed = parseLabel(ocrResult)
+    const rawName = parsed.product?.name ?? ''
+    const resolution = resolveProductName(rawName, { catalog: productCatalog })
     candidates = parsed.prices
-    nameInput.value = parsed.product?.name ?? ''
+    nameInput.value = resolution.product ?? resolution.canonicalName
+    rawNameLabel.textContent = rawName || 'Não identificado'
+    resolutionMessage.textContent = resolution.product
+      ? 'Correspondência encontrada no catálogo.'
+      : resolution.ambiguous
+        ? 'Há mais de uma correspondência possível. Escolha antes de confirmar.'
+        : 'Nenhuma correspondência exata. Confirme uma sugestão ou edite o nome.'
+    suggestionList.innerHTML = resolution.suggestions.map(productSuggestionTemplate).join('')
+    suggestionList.hidden = resolution.suggestions.length === 0
+    resolutionPanel.hidden = false
     nameInput.removeAttribute('aria-invalid')
     nameError.textContent = ''
     processing.hidden = true
@@ -118,6 +136,18 @@ export async function openOcrResult(
     nameInput.removeAttribute('aria-invalid')
     nameError.textContent = ''
   })
+  suggestionList.addEventListener('click', (event) => {
+    const button = event.target instanceof Element
+      ? event.target.closest<HTMLButtonElement>('[data-product-suggestion]')
+      : null
+    if (!button?.dataset.productSuggestion) return
+    nameInput.value = button.dataset.productSuggestion
+    nameInput.focus()
+  })
+  rejectSuggestionsButton.addEventListener('click', () => {
+    nameInput.focus()
+    nameInput.select()
+  })
   addButton.addEventListener('click', () => {
     if (submitting) return
     const name = normalizeProductName(nameInput.value)
@@ -157,6 +187,11 @@ function candidateTemplate(candidate: ParsedPrice, index: number): string {
     </label>`
 }
 
+function productSuggestionTemplate(name: string): string {
+  const escapedName = escapeHtml(name)
+  return `<li><button class="w-full rounded-xl border border-stone-200 px-3 py-2.5 text-left text-sm font-semibold hover:border-brand-700 hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-brand-700 dark:border-stone-700 dark:hover:bg-brand-900" type="button" data-product-suggestion="${escapedName}">${escapedName}</button></li>`
+}
+
 function priceUnitLabel(price: ParsedPrice): string {
   if (price.unit === 'KG') return '/kg'
   if (price.unit === '100G') return '/100 g'
@@ -193,7 +228,7 @@ function ocrTemplate(): string {
       <header class="flex items-start justify-between gap-4 border-b border-stone-200 px-5 py-5 dark:border-stone-700"><div><p class="text-xs font-bold uppercase tracking-[0.15em] text-brand-700 dark:text-emerald-300">Leitura local</p><h2 id="ocr-title" class="mt-1 text-xl font-bold">Confira o produto</h2></div><button class="grid size-11 shrink-0 place-items-center rounded-full text-stone-500 hover:bg-stone-100 focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-stone-300 dark:hover:bg-stone-800" type="button" data-ocr-manual aria-label="Fechar e digitar produto manualmente"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"/></svg></button></header>
       <div class="min-h-0 flex-1 overflow-y-auto px-5 py-6">
         <section class="grid min-h-48 place-items-center text-center" data-ocr-processing aria-live="polite"><div><span class="ocr-spinner" aria-hidden="true"></span><p class="mt-5 font-bold" data-ocr-progress>Preparando leitura...</p><p class="mt-2 text-sm text-stone-500 dark:text-stone-400">A primeira leitura pode levar um pouco mais.</p></div></section>
-        <section data-ocr-candidates hidden><div class="mb-5"><label class="mb-2 block text-sm font-semibold text-stone-700" for="ocr-product-name">Nome do produto</label><input class="field" id="ocr-product-name" type="text" autocomplete="off" aria-describedby="ocr-product-name-error"><p class="error-message" id="ocr-product-name-error" aria-live="polite"></p></div><p class="mb-3 text-sm font-semibold text-stone-700 dark:text-stone-200">Preços encontrados</p><p class="mb-4 rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-900 dark:bg-amber-950/40 dark:text-amber-100" data-ocr-warning role="alert" hidden></p><fieldset class="grid gap-3" data-ocr-list><legend class="sr-only">Preços encontrados</legend></fieldset><button class="camera-primary-button mt-5 w-full" type="button" data-ocr-add disabled>Adicionar produto</button></section>
+        <section data-ocr-candidates hidden><div class="mb-5"><div class="mb-4 rounded-2xl bg-brand-50 p-4 dark:bg-brand-900" data-product-resolution hidden><p class="text-xs font-bold uppercase tracking-wider text-brand-700 dark:text-emerald-300">Produto identificado</p><p class="mt-1 text-sm text-stone-600 dark:text-stone-300" data-product-resolution-message></p><p class="mt-3 text-xs text-stone-500 dark:text-stone-400">Texto da etiqueta: <strong data-product-raw-name></strong></p><ul class="mt-3 grid list-none gap-2 p-0" data-product-suggestions aria-label="Outras opções" hidden></ul><button class="mt-3 min-h-10 text-sm font-bold text-brand-700 underline decoration-transparent underline-offset-4 hover:decoration-current focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-emerald-300" type="button" data-product-reject-suggestions>Nenhum desses — corrigir nome</button></div><label class="mb-2 block text-sm font-semibold text-stone-700" for="ocr-product-name">Nome do produto</label><input class="field" id="ocr-product-name" type="text" autocomplete="off" aria-describedby="ocr-product-name-error"><p class="mt-1 text-xs text-stone-500 dark:text-stone-400">Você pode escolher uma opção acima ou corrigir o nome manualmente.</p><p class="error-message" id="ocr-product-name-error" aria-live="polite"></p></div><p class="mb-3 text-sm font-semibold text-stone-700 dark:text-stone-200">Preços encontrados</p><p class="mb-4 rounded-xl bg-amber-50 p-3 text-sm font-semibold text-amber-900 dark:bg-amber-950/40 dark:text-amber-100" data-ocr-warning role="alert" hidden></p><fieldset class="grid gap-3" data-ocr-list><legend class="sr-only">Preços encontrados</legend></fieldset><button class="camera-primary-button mt-5 w-full" type="button" data-ocr-add disabled>Confirmar e adicionar</button></section>
         <section class="rounded-2xl bg-stone-100 p-5 text-center dark:bg-stone-800" data-ocr-empty hidden><h3 class="font-bold">Nenhum preço encontrado</h3><p class="mt-2 text-sm leading-6 text-stone-600 dark:text-stone-300">Não encontramos um preço com segurança nesta foto.</p></section>
         <section class="rounded-2xl bg-red-50 p-5 text-center text-red-900 dark:bg-red-950/40 dark:text-red-100" data-ocr-error role="alert" hidden><h3 class="font-bold">Não foi possível ler esta imagem</h3><p class="mt-2 text-sm leading-6">Tente a leitura novamente ou tire outra foto.</p><button class="mt-4 min-h-11 rounded-xl border border-red-300 px-4 text-sm font-bold focus-visible:outline-2 focus-visible:outline-red-700 dark:border-red-700" type="button" data-ocr-retry>Tentar leitura novamente</button></section>
       </div>

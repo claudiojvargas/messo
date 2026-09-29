@@ -7,7 +7,10 @@ export type ScanPriceResult =
   | { status: 'manual' }
   | { status: 'cancelled' }
 
-export async function scanPrice(trigger: HTMLElement): Promise<ScanPriceResult> {
+export async function scanPrice(
+  trigger: HTMLElement,
+  productCatalog: readonly string[],
+): Promise<ScanPriceResult> {
   while (true) {
     const image = await openCamera(trigger)
     if (!image) {
@@ -16,7 +19,7 @@ export async function scanPrice(trigger: HTMLElement): Promise<ScanPriceResult> 
     }
 
     storeCapturedImage(image)
-    const decision = await openOcrResult(image, trigger).finally(clearCapturedImage)
+    const decision = await openOcrResult(image, trigger, productCatalog).finally(clearCapturedImage)
 
     if (decision.action === 'retake') continue
     if (decision.action === 'manual') return { status: 'manual' }
