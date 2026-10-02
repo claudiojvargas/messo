@@ -19,8 +19,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       includeAssets: [
-        'images/icon-192.png',
-        'images/icon-512.png',
+        'images/logo-192.png',
+        'images/logo-512.png',
+        'icons/messo.svg',
       ],
       manifest: {
         name: 'Messo',
@@ -44,12 +45,6 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
-          },
-          {
-            src: '/images/logo-maskable-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
           },
         ],
       },

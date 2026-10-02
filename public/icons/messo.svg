@@ -1,23 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
   <title id="title">Messo</title>
-  <desc id="description">Sacola de compras branca sobre fundo verde.</desc>
-  <rect width="512" height="512" rx="96" fill="#196b52" />
+  <desc id="description">Símbolo Messo em forma de M e etiqueta.</desc>
+  <defs>
+    <linearGradient id="ribbon" x1="80" y1="72" x2="390" y2="348" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#19dda0"/>
+      <stop offset="0.58" stop-color="#00a87f"/>
+      <stop offset="1" stop-color="#007866"/>
+    </linearGradient>
+    <linearGradient id="tag" x1="355" y1="216" x2="404" y2="438" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#19dda0"/>
+      <stop offset="1" stop-color="#00a87f"/>
+    </linearGradient>
+  </defs>
   <path
-    d="M160 159h192a32 32 0 0 1 32 32v172a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V191a32 32 0 0 1 32-32Z"
-    fill="#f4fff9"
+    d="M44 128c0-22 18-40 40-40h58c11 0 21 4 29 12l85 84 85-84c8-8 18-12 29-12h58c22 0 40 18 40 40v121l-84-82-94 94c-19 19-49 19-68 0l-94-94v258c0 22-18 40-40 40h-4c-22 0-40-18-40-40V128Z"
+    fill="url(#ribbon)"
   />
   <path
-    d="M177 159a79 79 0 0 1 158 0"
-    fill="none"
-    stroke="#f4fff9"
-    stroke-width="32"
-    stroke-linecap="round"
+    d="m344 241 47-47 61 61a40 40 0 0 1 12 28v142c0 22-18 40-40 40h-48c-22 0-40-18-40-40V269c0-11 3-20 8-28Z"
+    fill="url(#tag)"
   />
-  <path
-    d="M181 250h150M181 307h121"
-    fill="none"
-    stroke="#196b52"
-    stroke-width="14"
-    stroke-linecap="round"
-  />
+  <circle cx="400" cy="276" r="12" fill="#007866"/>
 </svg>

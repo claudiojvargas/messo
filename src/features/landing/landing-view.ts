@@ -91,7 +91,7 @@ function landingTemplate(): string {
 
         <section class="px-5 py-20 sm:px-8 sm:py-28"><div class="mx-auto max-w-5xl overflow-hidden rounded-[2rem] bg-brand-800 px-6 py-14 text-center text-white shadow-xl shadow-brand-900/20 sm:px-12 sm:py-16"><h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Sua compra, mais fácil de acompanhar.</h2><p class="mx-auto mt-5 max-w-2xl leading-7 text-emerald-50/80">Abra o Messo durante sua próxima ida ao supermercado e acompanhe seus produtos e gastos enquanto compra.</p><a class="mt-8 inline-flex min-h-13 items-center justify-center rounded-xl bg-white px-6 font-extrabold text-brand-900 transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" href="/app">Começar minha compra <span class="ml-2" aria-hidden="true">→</span></a></div></section>
       </main>
-      <footer class="border-t border-stone-200 px-5 py-8 sm:px-8"><div class="mx-auto flex max-w-6xl flex-col gap-3 text-sm text-stone-500 sm:flex-row sm:items-center sm:justify-between"><div><img class="h-9" src="/images/logo-color.png" alt=""><span class="ml-2">Sua compra mais simples de acompanhar.</span></div><p>© ${new Date().getFullYear()} Messo</p></div></footer>
+      <footer class="border-t border-stone-200 px-5 py-8 sm:px-8"><div class="mx-auto flex max-w-6xl flex-col gap-3 text-sm text-stone-500 sm:flex-row sm:items-center sm:justify-between"><div class="flex items-center gap-3"><img class="h-9 w-auto" src="/images/logo-color.png" alt=""><span>Sua compra mais simples de acompanhar.</span></div><p>© ${new Date().getFullYear()} Messo</p></div></footer>
     </div>`
 }
 
