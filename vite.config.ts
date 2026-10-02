@@ -18,7 +18,10 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['icons/messo.svg'],
+      includeAssets: [
+        'images/icon-192.png',
+        'images/icon-512.png',
+      ],
       manifest: {
         name: 'Messo',
         short_name: 'Messo',
@@ -30,7 +33,24 @@ export default defineConfig({
         theme_color: '#196b52',
         background_color: '#fafaf9',
         icons: [
-          { src: '/icons/messo.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' },
+          {
+            src: '/images/logo-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/images/logo-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/images/logo-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ],
       },
       workbox: {
