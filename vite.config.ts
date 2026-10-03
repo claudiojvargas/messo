@@ -18,19 +18,34 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['icons/messo.svg'],
+      includeAssets: [
+        'images/logo-192.png',
+        'images/logo-512.png',
+        'icons/messo.svg',
+      ],
       manifest: {
         name: 'Messo',
         short_name: 'Messo',
         description: 'Sua calculadora de compras simples e organizada.',
         lang: 'pt-BR',
-        start_url: '/',
+        start_url: '/app',
         scope: '/',
         display: 'standalone',
         theme_color: '#196b52',
         background_color: '#fafaf9',
         icons: [
-          { src: '/icons/messo.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' },
+          {
+            src: '/images/logo-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/images/logo-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
         ],
       },
       workbox: {

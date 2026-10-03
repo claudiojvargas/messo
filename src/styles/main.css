@@ -26,6 +26,17 @@
     overflow: hidden;
   }
 
+  body.landing-page {
+    height: auto;
+    overflow: auto;
+    background: #fff;
+  }
+
+  body.landing-page #app {
+    height: auto;
+    overflow: visible;
+  }
+
   [data-theme="dark"] body {
     background: #0c0a09;
   }
