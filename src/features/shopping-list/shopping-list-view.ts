@@ -16,6 +16,7 @@ import { showToast } from '../../ui/toast'
 import { scanPrice } from '../scanner/scan-price'
 import { confirmClearShoppingList } from './clear-list-dialog'
 import { mountProductSuggestions } from '../suggestions/suggestions-view'
+import { productIconTemplate } from './product-icon'
 
 export function mountShoppingList(container: HTMLElement): void {
   container.innerHTML = pageTemplate()
@@ -27,9 +28,12 @@ export function mountShoppingList(container: HTMLElement): void {
   const priceError = requireElement<HTMLElement>(container, '#product-price-error')
   const list = requireElement<HTMLElement>(container, '#shopping-list-content')
   const listCount = requireElement<HTMLElement>(container, '#list-count')
-  const summaryCount = requireElement<HTMLElement>(container, '#summary-count')
   const summaryTotal = requireElement<HTMLElement>(container, '#summary-total')
   const cameraButton = requireElement<HTMLButtonElement>(container, '#camera-button')
+  const panelCameraButton = requireElement<HTMLButtonElement>(container, '#panel-camera-button')
+  const openPanelButton = requireElement<HTMLButtonElement>(container, '#open-add-panel')
+  const closePanelButton = requireElement<HTMLButtonElement>(container, '#close-add-panel')
+  const panel = requireElement<HTMLElement>(container, '#add-product-panel')
   const clearListButton = requireElement<HTMLButtonElement>(container, '#clear-list-button')
 
   let products = loadShoppingList()
@@ -44,7 +48,6 @@ export function mountShoppingList(container: HTMLElement): void {
     const quantity = getTotalQuantity(products)
     const quantityLabel = formatQuantity(quantity)
     listCount.textContent = quantityLabel
-    summaryCount.textContent = quantityLabel
     summaryTotal.textContent = formatCurrency(getTotalCents(products))
     clearListButton.hidden = products.length === 0
     list.innerHTML = products.length === 0 ? emptyStateTemplate() : products.map((product) => productTemplate(product, editingId === product.id)).join('')
@@ -62,6 +65,19 @@ export function mountShoppingList(container: HTMLElement): void {
     showToast('Produto adicionado.')
   }
 
+  const openPanel = (focusInput = true): void => {
+    panel.hidden = false
+    panel.setAttribute('aria-hidden', 'false')
+    if (focusInput) requestAnimationFrame(() => nameInput.focus({ preventScroll: true }))
+  }
+
+  const closePanel = (): void => {
+    suggestions.close()
+    panel.hidden = true
+    panel.setAttribute('aria-hidden', 'true')
+    openPanelButton.focus({ preventScroll: true })
+  }
+
   form.addEventListener('submit', (event) => {
     event.preventDefault()
     clearAddErrors(nameInput, priceInput, nameError, priceError)
@@ -75,7 +91,7 @@ export function mountShoppingList(container: HTMLElement): void {
     addProductToShoppingList(details.value)
     suggestions.close()
     form.reset()
-    nameInput.focus()
+    closePanel()
   })
 
   list.addEventListener('click', (event) => {
@@ -137,23 +153,31 @@ export function mountShoppingList(container: HTMLElement): void {
     showToast('Produto atualizado.')
   })
 
-  cameraButton.addEventListener('click', async () => {
-    cameraButton.disabled = true
-    cameraButton.setAttribute('aria-busy', 'true')
+  const startScanner = async (trigger: HTMLButtonElement): Promise<void> => {
+    trigger.disabled = true
+    trigger.setAttribute('aria-busy', 'true')
     try {
-      const result = await scanPrice(cameraButton)
+      const result = await scanPrice(trigger)
       if (result.status === 'product') {
-        addProductToShoppingList({
-          name: result.name,
-          unitPriceCents: result.unitPriceCents,
-        })
+        nameInput.value = result.name
+        priceInput.value = formatCentsForInput(result.unitPriceCents)
+        openPanel(false)
+        priceInput.focus({ preventScroll: true })
       } else if (result.status === 'manual') {
-        priceInput.focus()
+        openPanel()
       }
     } finally {
-      cameraButton.disabled = false
-      cameraButton.removeAttribute('aria-busy')
+      trigger.disabled = false
+      trigger.removeAttribute('aria-busy')
     }
+  }
+
+  openPanelButton.addEventListener('click', () => openPanel())
+  closePanelButton.addEventListener('click', closePanel)
+  cameraButton.addEventListener('click', () => void startScanner(cameraButton))
+  panelCameraButton.addEventListener('click', () => void startScanner(panelCameraButton))
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden && !document.querySelector('dialog[open]')) closePanel()
   })
 
   clearListButton.addEventListener('click', async () => {
@@ -165,7 +189,6 @@ export function mountShoppingList(container: HTMLElement): void {
 
     editingId = null
     commit(clearShoppingList(products))
-    nameInput.focus()
     showToast('Lista limpa.')
   })
 
@@ -248,42 +271,51 @@ function productTemplate(product: Product, isEditing: boolean): string {
   }
 
   return `
-    <li class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm dark:border-stone-700 dark:bg-stone-900" data-product-id="${id}">
-      <div class="flex items-start justify-between gap-3">
-        <div class="min-w-0"><h3 class="break-words font-bold text-stone-900 dark:text-stone-50">${escapeHtml(product.name)}</h3><p class="mt-1 text-sm text-stone-500 dark:text-stone-400">${formatCurrency(product.unitPriceCents)} cada</p></div>
-        <div class="shrink-0 text-right"><p class="text-xs font-semibold uppercase tracking-wider text-stone-400">Subtotal</p><p class="mt-1 font-extrabold text-brand-800">${formatCurrency(getProductSubtotal(product))}</p></div>
-      </div>
-      <div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-stone-100 pt-3 dark:border-stone-800">
-        <div class="flex items-center rounded-xl bg-stone-100 p-1 dark:bg-stone-800" aria-label="Quantidade de ${escapeHtml(product.name)}">
-          <button class="quantity-button" type="button" data-action="decrease" aria-label="Diminuir quantidade de ${escapeHtml(product.name)}" ${product.quantity === 1 ? 'disabled' : ''}>−</button>
-          <span class="min-w-10 text-center text-sm font-bold" aria-live="polite">${product.quantity}</span>
-          <button class="quantity-button" type="button" data-action="increase" aria-label="Aumentar quantidade de ${escapeHtml(product.name)}">+</button>
+    <li class="product-row" data-product-id="${id}">
+      ${productIconTemplate(product.name)}
+      <div class="min-w-0 flex-1">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0"><h3 class="break-words font-bold leading-tight text-stone-900 dark:text-stone-50">${escapeHtml(product.name)}</h3><p class="mt-1 text-sm text-stone-500 dark:text-stone-400">${formatCurrency(product.unitPriceCents)} cada</p></div>
+          <div class="shrink-0 text-right"><p class="text-[0.65rem] font-semibold uppercase tracking-wider text-stone-400">Subtotal</p><p class="mt-0.5 font-extrabold text-brand-800 dark:text-emerald-300">${formatCurrency(getProductSubtotal(product))}</p></div>
         </div>
-        <div class="flex gap-1">
-          <button class="action-button text-brand-700 dark:text-emerald-300" type="button" data-action="edit" aria-label="Editar ${escapeHtml(product.name)}">Editar</button>
-          <button class="action-button text-red-700 dark:text-red-300" type="button" data-action="remove" aria-label="Remover ${escapeHtml(product.name)}">Remover</button>
+        <div class="mt-2 flex items-center justify-between gap-2">
+          <div class="flex items-center rounded-xl bg-stone-100 dark:bg-stone-800" aria-label="Quantidade de ${escapeHtml(product.name)}">
+            <button class="quantity-button" type="button" data-action="decrease" aria-label="Diminuir quantidade de ${escapeHtml(product.name)}" ${product.quantity === 1 ? 'disabled' : ''}>−</button>
+            <span class="min-w-8 text-center text-sm font-bold" aria-live="polite">${product.quantity}</span>
+            <button class="quantity-button" type="button" data-action="increase" aria-label="Aumentar quantidade de ${escapeHtml(product.name)}">+</button>
+          </div>
+          <div class="flex gap-1">
+            <button class="icon-action text-brand-700 dark:text-emerald-300" type="button" data-action="edit" aria-label="Editar ${escapeHtml(product.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+            <button class="icon-action text-red-700 dark:text-red-300" type="button" data-action="remove" aria-label="Remover ${escapeHtml(product.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/></svg></button>
+          </div>
         </div>
       </div>
     </li>`
 }
 
 function emptyStateTemplate(): string {
-  return `<li class="flex min-h-56 flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-white/70 px-6 py-10 text-center dark:border-stone-700 dark:bg-stone-900/70"><span class="mb-4 grid size-14 place-items-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900 dark:text-emerald-200" aria-hidden="true"><svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 7h12l-1 13H7L6 7Z" stroke-linejoin="round"/><path d="M9 9V5a3 3 0 0 1 6 0v4" stroke-linecap="round"/></svg></span><h3 class="font-bold text-stone-800 dark:text-stone-100">Nenhum produto adicionado ainda</h3><p class="mt-2 max-w-xs text-sm leading-6 text-stone-500 dark:text-stone-400">Use os campos acima para começar a organizar sua compra.</p></li>`
+  return `<li class="flex min-h-52 flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-white/70 px-6 py-8 text-center dark:border-stone-700 dark:bg-stone-900/70">${productIconTemplate('')}<h3 class="mt-4 font-bold text-stone-800 dark:text-stone-100">Sua compra está vazia</h3><p class="mt-2 max-w-xs text-sm leading-6 text-stone-500 dark:text-stone-400">Adicione manualmente ou escaneie uma etiqueta para começar.</p></li>`
 }
 
 function pageTemplate(): string {
   return `
-    <div class="flex h-dvh flex-col overflow-hidden bg-stone-50 text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
-      <header class="shrink-0 bg-brand-800 text-white dark:bg-[#0c2922]"><div class="mx-auto flex max-w-3xl items-center justify-between px-5 pb-7 pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-8"><a class="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" href="#main-content" aria-label="Messo, ir para o conteúdo principal"><img class="h-12 w-auto" src="/images/logo-white.png" alt=""></a><button id="theme-toggle" class="grid size-11 shrink-0 place-items-center rounded-xl bg-white/10 text-white ring-1 ring-white/15 transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" type="button" aria-label="Alternar tema"><span class="size-5" data-theme-icon aria-hidden="true"></span></button></div></header>
-      <main id="main-content" class="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-4 sm:px-8">
-        <button id="install-button" class="mx-auto mb-5 mt-3 block min-h-11 rounded-full border border-brand-700/20 bg-brand-50 px-5 text-sm font-bold text-brand-800 shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:border-emerald-300/20 dark:bg-brand-900 dark:text-emerald-100" type="button" hidden>Instalar Messo</button>
-        <section class="relative -mt-3 shrink-0 rounded-3xl bg-white p-5 shadow-card ring-1 ring-stone-200/60 dark:bg-stone-900 dark:ring-stone-700 sm:p-7" aria-labelledby="add-product-title"><div class="mb-5"><p class="mb-1 text-xs font-bold uppercase tracking-[0.15em] text-brand-700 dark:text-emerald-300">Novo item</p><h1 id="add-product-title" class="text-xl font-bold tracking-tight">O que vai para o carrinho?</h1></div>
-          <form id="product-form" novalidate><div class="grid gap-3 sm:grid-cols-[1fr_10rem]"><div><label class="mb-2 block text-sm font-semibold text-stone-700" for="product-name">Produto</label><div class="relative"><input class="field" id="product-name" name="product-name" type="text" placeholder="Ex.: Arroz integral" autocomplete="off" aria-describedby="product-name-error"><ul id="product-suggestions" class="product-suggestions" role="listbox" aria-label="Sugestões de produtos" hidden></ul></div><p class="error-message" id="product-name-error" aria-live="polite"></p></div><div><label class="mb-2 block text-sm font-semibold text-stone-700" for="product-price">Preço</label><div class="relative"><span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-sm font-semibold text-stone-500" aria-hidden="true">R$</span><input class="field pl-12" id="product-price" name="product-price" type="text" inputmode="decimal" placeholder="0,00" aria-describedby="product-price-error"></div><p class="error-message" id="product-price-error" aria-live="polite"></p></div></div>
-            <div class="mt-2 grid grid-cols-[1fr_auto] gap-3"><button class="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-700 px-5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 active:translate-y-px" type="submit"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Adicionar</button><button id="camera-button" class="grid size-12 place-items-center rounded-xl border border-stone-200 bg-stone-50 text-brand-700 transition hover:border-brand-700 hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-wait disabled:opacity-60 dark:border-stone-700 dark:bg-stone-800 dark:text-emerald-300" type="button" aria-label="Fotografar etiqueta de preço" title="Fotografar etiqueta"><svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6H8l1-1.5h6L16 6h1.5A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5v-8Z"/><circle cx="12" cy="12.5" r="3.25"/></svg></button></div><p class="mt-3 text-xs leading-relaxed text-stone-400">Fotografe uma etiqueta e confirme o preço antes de preencher o campo.</p>
-          </form></section>
-        <section class="flex min-h-0 flex-1 flex-col pt-5" aria-labelledby="shopping-list-title"><div class="mb-3 flex shrink-0 items-center justify-between gap-3 px-1"><div><h2 id="shopping-list-title" class="text-lg font-bold tracking-tight">Minha compra</h2><span id="list-count" class="mt-1 inline-block rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 dark:bg-brand-900 dark:text-emerald-200">0 itens</span></div><button id="clear-list-button" class="min-h-11 rounded-xl px-3 text-sm font-bold text-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 disabled:opacity-50 dark:text-red-300 dark:hover:bg-red-950/40" type="button" hidden>Limpar lista</button></div><ul id="shopping-list-content" class="grid min-h-0 flex-1 list-none content-start gap-3 overflow-y-auto overscroll-contain px-0 pb-4 pt-0" aria-live="polite"></ul></section>
+    <div class="app-shell bg-stone-50 text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
+      <header class="shrink-0 bg-brand-800 text-white dark:bg-[#0c2922]"><div class="mx-auto flex max-w-3xl items-center justify-between px-4 pb-4 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-8"><a class="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white" href="#main-content" aria-label="Messo, ir para o conteúdo principal"><img class="h-9 w-auto sm:h-11" src="/images/logo-white.png" alt=""></a><button id="theme-toggle" class="grid size-11 shrink-0 place-items-center rounded-xl bg-white/10 text-white ring-1 ring-white/15 transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" type="button" aria-label="Alternar tema"><span class="size-5" data-theme-icon aria-hidden="true"></span></button></div></header>
+      <main id="main-content" class="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-3 sm:px-8">
+        <button id="install-button" class="mx-auto mb-2 mt-2 block min-h-11 rounded-full border border-brand-700/20 bg-brand-50 px-5 text-sm font-bold text-brand-800 shadow-sm dark:border-emerald-300/20 dark:bg-brand-900 dark:text-emerald-100" type="button" hidden>Instalar Messo</button>
+        <section class="flex min-h-0 flex-1 flex-col pt-4" aria-labelledby="shopping-list-title">
+          <div class="mb-3 flex shrink-0 items-center justify-between gap-3 px-1"><div class="flex min-w-0 items-center gap-2.5"><h1 id="shopping-list-title" class="text-xl font-extrabold tracking-tight sm:text-2xl">Minha compra</h1><span id="list-count" class="shrink-0 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 dark:bg-brand-900 dark:text-emerald-200">0 itens</span></div><button id="clear-list-button" class="min-h-11 shrink-0 rounded-xl px-2 text-sm font-bold text-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 dark:text-red-300 dark:hover:bg-red-950/40" type="button" hidden>Limpar lista</button></div>
+          <ul id="shopping-list-content" class="grid min-h-0 flex-1 list-none content-start gap-2 overflow-y-auto overscroll-contain px-0 pb-3 pt-0" aria-live="polite"></ul>
+          <div class="cart-actions shrink-0"><button id="open-add-panel" class="secondary-cart-button" type="button" aria-controls="add-product-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Adicionar</button><button id="camera-button" class="primary-cart-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6H8l1-1.5h6L16 6h1.5A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5v-8Z"/><circle cx="12" cy="12.5" r="3.25"/></svg>Escanear</button></div>
+        </section>
       </main>
-      <button id="update-button" class="fixed bottom-24 left-1/2 z-20 min-h-11 -translate-x-1/2 rounded-full bg-stone-900 px-5 text-sm font-bold text-white shadow-lg ring-1 ring-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-white dark:text-stone-900" type="button" hidden>Nova versão disponível — atualizar</button>
-      <aside class="shrink-0 border-t border-white/10 bg-brand-900 text-white shadow-summary dark:bg-[#0c2922]" aria-label="Resumo da compra"><div class="mx-auto flex max-w-3xl items-center justify-between gap-6 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4 sm:px-8"><div><p class="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200/70">Quantidade</p><p id="summary-count" class="mt-1 text-base font-bold">0 itens</p></div><div class="h-10 w-px bg-white/15" aria-hidden="true"></div><div class="flex-1 text-right"><p class="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200/70">Total da compra</p><p id="summary-total" class="mt-0.5 text-2xl font-extrabold tracking-tight">R$ 0,00</p></div></div></aside>
+      <section id="add-product-panel" class="add-product-panel" role="dialog" aria-modal="false" aria-labelledby="add-product-title" aria-hidden="true" hidden>
+        <div class="panel-handle" aria-hidden="true"></div><header class="mb-3 flex items-center justify-between gap-3"><div><h2 id="add-product-title" class="text-xl font-extrabold">Adicionar item</h2><p class="text-sm text-stone-500 dark:text-stone-400">Entrada rápida</p></div><button id="close-add-panel" class="icon-action" type="button" aria-label="Fechar painel de adicionar item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header>
+        <form id="product-form" novalidate><div class="grid gap-3 sm:grid-cols-[1fr_10rem]"><div><label class="mb-1.5 block text-sm font-semibold" for="product-name">Produto</label><div class="relative"><input class="field" id="product-name" name="product-name" type="text" placeholder="Ex.: Banana prata" autocomplete="off" aria-describedby="product-name-error"><ul id="product-suggestions" class="product-suggestions product-suggestions-up" role="listbox" aria-label="Sugestões de produtos" hidden></ul></div><p class="error-message" id="product-name-error" aria-live="polite"></p></div><div><label class="mb-1.5 block text-sm font-semibold" for="product-price">Preço</label><div class="relative"><span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-sm font-semibold text-stone-500" aria-hidden="true">R$</span><input class="field pl-12" id="product-price" name="product-price" type="text" inputmode="decimal" placeholder="0,00" aria-describedby="product-price-error"></div><p class="error-message" id="product-price-error" aria-live="polite"></p></div></div>
+          <div class="mt-1 grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-2"><button id="panel-camera-button" class="secondary-cart-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6H8l1-1.5h6L16 6h1.5A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5v-8Z"/><circle cx="12" cy="12.5" r="3.25"/></svg><span class="hidden min-[360px]:inline">Usar câmera</span><span class="min-[360px]:hidden">Câmera</span></button><button class="primary-cart-button px-2" type="submit">Adicionar ao carrinho</button></div>
+        </form>
+      </section>
+      <button id="update-button" class="fixed bottom-24 left-1/2 z-40 min-h-11 -translate-x-1/2 rounded-full bg-stone-900 px-5 text-sm font-bold text-white shadow-lg dark:bg-white dark:text-stone-900" type="button" hidden>Nova versão disponível — atualizar</button>
+      <aside class="total-bar" aria-label="Resumo da compra"><div class="mx-auto flex max-w-3xl items-center justify-between gap-6 px-5 pb-[max(0.8rem,env(safe-area-inset-bottom))] pt-3 sm:px-8"><p class="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200/80">Total da compra</p><p id="summary-total" class="text-2xl font-extrabold tracking-tight">R$ 0,00</p></div></aside>
     </div>`
 }
