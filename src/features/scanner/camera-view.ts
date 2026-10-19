@@ -1,4 +1,5 @@
 import { cameraErrorMessage } from './camera-errors'
+import { videoContentRect } from './camera-framing'
 import {
   captureVideoFrame,
   cameraDeviceDisplayName,
@@ -31,6 +32,8 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   document.body.append(dialog)
 
   const video = requireElement<HTMLVideoElement>(dialog, '[data-camera-video]')
+  const frame = requireElement<HTMLElement>(dialog, '[data-camera-frame]')
+  const stage = requireElement<HTMLElement>(dialog, '.camera-stage')
   const photo = requireElement<HTMLImageElement>(dialog, '[data-camera-photo]')
   const loading = requireElement<HTMLElement>(dialog, '[data-camera-loading]')
   const errorMessage = requireElement<HTMLElement>(dialog, '[data-camera-error]')
@@ -48,7 +51,32 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   let settled = false
   let cameras: CameraDevice[] = []
 
+  const updateFrame = (): void => {
+    if (settled || !stream || video.hidden || !video.videoWidth || !video.videoHeight) {
+      frame.hidden = true
+      return
+    }
+    const bounds = video.getBoundingClientRect()
+    if (!bounds.width || !bounds.height) {
+      frame.hidden = true
+      return
+    }
+    const content = videoContentRect(video.videoWidth, video.videoHeight, bounds)
+    const container = stage.getBoundingClientRect()
+    // Insets follow the actual video, excluding letterboxing.
+    frame.style.left = `${content.left - container.left + content.width * 0.08}px`
+    frame.style.top = `${content.top - container.top + content.height * 0.12}px`
+    frame.style.width = `${content.width * 0.84}px`
+    frame.style.height = `${content.height * 0.76}px`
+    frame.hidden = false
+  }
+  const frameObserver = new ResizeObserver(updateFrame)
+  frameObserver.observe(stage)
+  frameObserver.observe(video)
+  video.addEventListener('resize', updateFrame)
+
   const releaseStream = (): void => {
+    frame.hidden = true
     stopCamera(stream)
     stream = null
     video.srcObject = null
@@ -63,6 +91,8 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   const finish = (result: CapturedImage | null, resolve: (value: CapturedImage | null) => void): void => {
     if (settled) return
     settled = true
+    frameObserver.disconnect()
+    video.removeEventListener('resize', updateFrame)
     releaseStream()
     releasePreview()
     document.removeEventListener('visibilitychange', handleVisibilityChange)
@@ -79,6 +109,7 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
     await video.play()
     await prepareCameraStream(stream)
     rememberCameraDevice(stream)
+    updateFrame()
   }
 
   const updateAvailableCameras = async (): Promise<void> => {
@@ -154,7 +185,8 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
   captureButton.addEventListener('click', async () => {
     captureButton.disabled = true
     try {
-      capture = await captureVideoFrame(video)
+      updateFrame()
+      capture = await captureVideoFrame(video, frame)
       if (settled) return
       releaseStream()
       previewUrl = URL.createObjectURL(capture.blob)
@@ -240,11 +272,12 @@ function cameraTemplate(): string {
   return `
     <div class="camera-shell">
       <header class="camera-header">
-        <div><p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-300">Capturar etiqueta</p><h2 id="camera-title" class="mt-1 text-xl font-bold text-white">Aponte para a etiqueta de preço</h2></div>
+        <div><p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-300">Capturar etiqueta</p><h2 id="camera-title" class="mt-1 text-xl font-bold text-white">Enquadre a etiqueta inteira</h2><p id="camera-framing-help" class="camera-framing-help">Inclua nome, todos os preços, unidades e condições promocionais dentro da moldura.</p></div>
         <button class="camera-icon-button" type="button" data-camera-cancel data-camera-close aria-label="Fechar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"/></svg></button>
       </header>
       <div class="camera-stage">
-        <video class="camera-media" data-camera-video autoplay muted playsinline></video>
+        <video class="camera-media" data-camera-video aria-describedby="camera-framing-help" autoplay muted playsinline></video>
+        <div class="camera-frame" data-camera-frame aria-hidden="true" hidden></div>
         <img class="camera-media" data-camera-photo alt="Foto capturada da etiqueta" hidden>
         <p class="camera-loading" data-camera-loading role="status">Iniciando câmera...</p>
         <p class="camera-error" data-camera-error role="alert" hidden></p>

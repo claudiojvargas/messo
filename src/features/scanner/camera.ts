@@ -1,9 +1,11 @@
 import { CameraError } from './camera-errors'
+import { videoCropRect, type FrameRect } from './camera-framing'
 
 export interface CapturedImage {
   blob: Blob
   width: number
   height: number
+  source?: { width: number; height: number; crop: FrameRect }
 }
 
 const preferredConstraints: MediaStreamConstraints = {
@@ -186,21 +188,23 @@ export function stopCamera(stream: MediaStream | null): void {
   stream?.getTracks().forEach((track) => track.stop())
 }
 
-export async function captureVideoFrame(video: HTMLVideoElement): Promise<CapturedImage> {
+export async function captureVideoFrame(video: HTMLVideoElement, frame: HTMLElement): Promise<CapturedImage> {
   const { videoWidth: width, videoHeight: height } = video
   if (width <= 0 || height <= 0) {
     throw new CameraError('capture-failed', 'The video has no capture dimensions.')
   }
 
+  // The centered contain preview is not mirrored, including front cameras.
+  const crop = videoCropRect(width, height, video.getBoundingClientRect(), frame.getBoundingClientRect())
   const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
+  canvas.width = crop.width
+  canvas.height = crop.height
   const context = canvas.getContext('2d')
   if (!context) throw new CameraError('capture-failed', 'Canvas is not available.')
 
-  context.drawImage(video, 0, 0, width, height)
+  context.drawImage(video, crop.left, crop.top, crop.width, crop.height, 0, 0, crop.width, crop.height)
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.92))
   if (!blob) throw new CameraError('capture-failed', 'The browser did not create an image.')
 
-  return { blob, width, height }
+  return { blob, width: crop.width, height: crop.height, source: { width, height, crop } }
 }

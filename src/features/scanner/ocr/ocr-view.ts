@@ -41,6 +41,24 @@ export async function openOcrResult(
   const retakeButton = requireElement<HTMLButtonElement>(dialog, '[data-ocr-retake]')
   const manualButtons = dialog.querySelectorAll<HTMLButtonElement>('[data-ocr-manual]')
 
+  const diagnosticPanel = requireElement<HTMLElement>(dialog, '[data-ocr-diagnostics]')
+  const diagnosticOutput = requireElement<HTMLElement>(dialog, '[data-ocr-diagnostic-output]')
+  const diagnosticEnabled = new URLSearchParams(window.location.search).has('cameraDebug')
+  let diagnosticUrl: string | null = null
+  if (diagnosticEnabled) {
+    diagnosticPanel.hidden = false
+    diagnosticUrl = URL.createObjectURL(capturedImage.blob)
+    requireElement<HTMLImageElement>(dialog, '[data-ocr-diagnostic-image]').src = diagnosticUrl
+  }
+  const showDiagnostic = (details: Record<string, unknown>): void => {
+    if (!diagnosticEnabled) return
+    diagnosticOutput.textContent = JSON.stringify({
+      image: { width: capturedImage.width, height: capturedImage.height, bytes: capturedImage.blob.size, type: capturedImage.blob.type },
+      source: capturedImage.source,
+      ...details,
+    }, null, 2)
+  }
+
   let sourceImage: CapturedImage | null = capturedImage
   let candidates: ParsedPrice[] = []
   let attempt = 0
@@ -58,6 +76,7 @@ export async function openOcrResult(
     attempt += 1
     sourceImage = null
     candidates = []
+    if (diagnosticUrl) URL.revokeObjectURL(diagnosticUrl)
     dialog.close()
     dialog.remove()
     trigger.focus()
@@ -106,15 +125,28 @@ export async function openOcrResult(
     errorPanel.hidden = true
     addButton.disabled = true
     updateProgress({ stage: 'preparing' })
+    const started = performance.now()
+    showDiagnostic({ state: 'processing' })
 
     try {
       const { recognizeImage } = await import('./tesseract-ocr')
       const ocrResult = await recognizeImage(image.blob, (progress) => {
         if (currentAttempt === attempt) updateProgress(progress)
       })
-      if (!settled && currentAttempt === attempt) showCandidates(ocrResult)
-    } catch {
+      if (!settled && currentAttempt === attempt) {
+        showCandidates(ocrResult)
+        showDiagnostic({
+          state: !ocrResult.text.trim() ? 'empty-text' : candidates.length ? 'candidates' : 'text-without-price',
+          elapsedMs: Math.round(performance.now() - started),
+          text: ocrResult.text,
+          confidence: ocrResult.confidence,
+          lines: ocrResult.lines,
+          prices: candidates,
+        })
+      }
+    } catch (error) {
       if (settled || currentAttempt !== attempt) return
+      showDiagnostic({ state: 'technical-error', elapsedMs: Math.round(performance.now() - started), error: error instanceof Error ? error.message : String(error) })
       processing.hidden = true
       errorPanel.hidden = false
       retryButton.focus()
@@ -205,6 +237,7 @@ function ocrTemplate(): string {
         <section class="rounded-2xl bg-stone-100 p-5 text-center dark:bg-stone-800" data-ocr-empty hidden><h3 class="font-bold">Nenhum preço encontrado</h3><p class="mt-2 text-sm leading-6 text-stone-600 dark:text-stone-300">Não encontramos um preço com segurança nesta foto.</p></section>
         <section class="rounded-2xl bg-red-50 p-5 text-center text-red-900 dark:bg-red-950/40 dark:text-red-100" data-ocr-error role="alert" hidden><h3 class="font-bold">Não foi possível ler esta imagem</h3><p class="mt-2 text-sm leading-6">Tente a leitura novamente ou tire outra foto.</p><button class="mt-4 min-h-11 rounded-xl border border-red-300 px-4 text-sm font-bold focus-visible:outline-2 focus-visible:outline-red-700 dark:border-red-700" type="button" data-ocr-retry>Tentar leitura novamente</button></section>
       </div>
+      <details class="mx-5 mb-4 max-h-64 overflow-auto rounded-xl border border-stone-300 p-3 text-sm" data-ocr-diagnostics hidden><summary class="cursor-pointer font-bold">Diagnóstico local da leitura</summary><p class="my-2">Imagem enviada ao OCR e resultado bruto. Nada é enviado a um serviço externo.</p><img class="max-h-40 w-auto" data-ocr-diagnostic-image alt="Recorte enviado ao OCR"><pre class="mt-2 whitespace-pre-wrap break-words text-xs" data-ocr-diagnostic-output></pre></details>
       <footer class="grid gap-2 border-t border-stone-200 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4 dark:border-stone-700"><button class="ocr-secondary-button" type="button" data-ocr-retake>Tirar outra foto</button><button class="min-h-11 rounded-xl px-4 text-sm font-bold text-brand-700 focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-emerald-300" type="button" data-ocr-manual>Digitar manualmente</button></footer>
     </div>`
 }
