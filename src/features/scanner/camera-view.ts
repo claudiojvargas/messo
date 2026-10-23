@@ -3,6 +3,7 @@ import { videoContentRect } from './camera-framing'
 import {
   captureVideoFrame,
   cameraDeviceDisplayName,
+  cameraVideoFit,
   listCameraDevices,
   prepareCameraStream,
   rememberCameraDevice,
@@ -61,13 +62,21 @@ async function runCameraFlow(trigger: HTMLElement): Promise<CapturedImage | null
       frame.hidden = true
       return
     }
-    const content = videoContentRect(video.videoWidth, video.videoHeight, bounds)
+    const content = videoContentRect(video.videoWidth, video.videoHeight, bounds, cameraVideoFit(video))
+    const visible = {
+      left: Math.max(content.left, bounds.left),
+      top: Math.max(content.top, bounds.top),
+      width: Math.min(content.left + content.width, bounds.right) - Math.max(content.left, bounds.left),
+      height: Math.min(content.top + content.height, bounds.bottom) - Math.max(content.top, bounds.top),
+    }
     const container = stage.getBoundingClientRect()
-    // Insets follow the actual video, excluding letterboxing.
-    frame.style.left = `${content.left - container.left + content.width * 0.08}px`
-    frame.style.top = `${content.top - container.top + content.height * 0.12}px`
-    frame.style.width = `${content.width * 0.84}px`
-    frame.style.height = `${content.height * 0.76}px`
+    // A 3:2 frame fits whole labels rather than a single line of text.
+    const width = Math.min(visible.width * 0.88, visible.height * 0.76 * 1.5)
+    const height = width / 1.5
+    frame.style.left = `${visible.left - container.left + (visible.width - width) / 2}px`
+    frame.style.top = `${visible.top - container.top + (visible.height - height) / 2}px`
+    frame.style.width = `${width}px`
+    frame.style.height = `${height}px`
     frame.hidden = false
   }
   const frameObserver = new ResizeObserver(updateFrame)
@@ -272,7 +281,7 @@ function cameraTemplate(): string {
   return `
     <div class="camera-shell">
       <header class="camera-header">
-        <div><p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-300">Capturar etiqueta</p><h2 id="camera-title" class="mt-1 text-xl font-bold text-white">Enquadre a etiqueta inteira</h2><p id="camera-framing-help" class="camera-framing-help">Inclua nome, todos os preços, unidades e condições promocionais dentro da moldura.</p></div>
+        <div><p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-300">Capturar etiqueta</p><h2 id="camera-title" class="mt-1 text-xl font-bold text-white">Posicione toda a etiqueta dentro da moldura</h2><p id="camera-framing-help" class="camera-framing-help">Inclua nome, todos os preços, unidades e condições promocionais dentro da moldura.</p></div>
         <button class="camera-icon-button" type="button" data-camera-cancel data-camera-close aria-label="Fechar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"/></svg></button>
       </header>
       <div class="camera-stage">

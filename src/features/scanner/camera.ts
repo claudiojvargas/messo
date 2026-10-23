@@ -188,14 +188,23 @@ export function stopCamera(stream: MediaStream | null): void {
   stream?.getTracks().forEach((track) => track.stop())
 }
 
+/** Preview CSS keeps object-position centered and does not mirror the stream. */
+export function cameraVideoFit(video: HTMLVideoElement): 'contain' | 'cover' {
+  const fit = getComputedStyle(video).objectFit
+  if (fit !== 'contain' && fit !== 'cover') {
+    throw new CameraError('capture-failed', 'Unsupported camera object-fit.')
+  }
+  return fit
+}
+
 export async function captureVideoFrame(video: HTMLVideoElement, frame: HTMLElement): Promise<CapturedImage> {
   const { videoWidth: width, videoHeight: height } = video
   if (width <= 0 || height <= 0) {
     throw new CameraError('capture-failed', 'The video has no capture dimensions.')
   }
 
-  // The centered contain preview is not mirrored, including front cameras.
-  const crop = videoCropRect(width, height, video.getBoundingClientRect(), frame.getBoundingClientRect())
+  // Read the displayed fit; centered cover also hides pixels outside the element.
+  const crop = videoCropRect(width, height, video.getBoundingClientRect(), frame.getBoundingClientRect(), cameraVideoFit(video))
   const canvas = document.createElement('canvas')
   canvas.width = crop.width
   canvas.height = crop.height

@@ -1,4 +1,5 @@
 import type { CapturedImage } from '../camera'
+import { prepareOcrImage, preprocessingOptions, type PreparedOcrImage } from '../image-preprocessing'
 import { formatCurrency } from '../../shopping-list/price'
 import { normalizeProductName } from '../../shopping-list/product'
 import type { OcrProgress, OcrResult } from './ocr-types'
@@ -44,6 +45,9 @@ export async function openOcrResult(
   const diagnosticPanel = requireElement<HTMLElement>(dialog, '[data-ocr-diagnostics]')
   const diagnosticOutput = requireElement<HTMLElement>(dialog, '[data-ocr-diagnostic-output]')
   const diagnosticEnabled = new URLSearchParams(window.location.search).has('cameraDebug')
+  let diagnosticImage = capturedImage
+  let preprocessing: Omit<PreparedOcrImage, 'image'> | undefined
+  let preprocessingController: AbortController | undefined
   let diagnosticUrl: string | null = null
   if (diagnosticEnabled) {
     diagnosticPanel.hidden = false
@@ -53,8 +57,9 @@ export async function openOcrResult(
   const showDiagnostic = (details: Record<string, unknown>): void => {
     if (!diagnosticEnabled) return
     diagnosticOutput.textContent = JSON.stringify({
-      image: { width: capturedImage.width, height: capturedImage.height, bytes: capturedImage.blob.size, type: capturedImage.blob.type },
+      image: { width: diagnosticImage.width, height: diagnosticImage.height, bytes: diagnosticImage.blob.size, type: diagnosticImage.blob.type },
       source: capturedImage.source,
+      preprocessing,
       ...details,
     }, null, 2)
   }
@@ -74,6 +79,7 @@ export async function openOcrResult(
     if (settled) return
     settled = true
     attempt += 1
+    preprocessingController?.abort()
     sourceImage = null
     candidates = []
     if (diagnosticUrl) URL.revokeObjectURL(diagnosticUrl)
@@ -119,6 +125,10 @@ export async function openOcrResult(
     const image = sourceImage
     if (!image || settled) return
     const currentAttempt = ++attempt
+    preprocessingController?.abort()
+    const controller = new AbortController()
+    preprocessingController = controller
+    preprocessing = undefined
     processing.hidden = false
     candidatesPanel.hidden = true
     emptyPanel.hidden = true
@@ -129,8 +139,20 @@ export async function openOcrResult(
     showDiagnostic({ state: 'processing' })
 
     try {
+      progressLabel.textContent = 'Preparando imagem...'
+      const prepared = await prepareOcrImage(image, preprocessingOptions(window.location.search), controller.signal)
+      if (settled || currentAttempt !== attempt) return
+      const { image: preparedImage, ...details } = prepared
+      preprocessing = details
+      diagnosticImage = preparedImage
+      if (diagnosticEnabled) {
+        if (diagnosticUrl) URL.revokeObjectURL(diagnosticUrl)
+        diagnosticUrl = URL.createObjectURL(preparedImage.blob)
+        requireElement<HTMLImageElement>(dialog, '[data-ocr-diagnostic-image]').src = diagnosticUrl
+      }
       const { recognizeImage } = await import('./tesseract-ocr')
-      const ocrResult = await recognizeImage(image.blob, (progress) => {
+      if (settled || currentAttempt !== attempt) return
+      const ocrResult = await recognizeImage(preparedImage.blob, (progress) => {
         if (currentAttempt === attempt) updateProgress(progress)
       })
       if (!settled && currentAttempt === attempt) {

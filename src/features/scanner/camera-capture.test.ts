@@ -1,5 +1,7 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { captureVideoFrame } from './camera'
+
+beforeEach(() => vi.stubGlobal('getComputedStyle', () => ({ objectFit: 'contain' })))
 
 afterEach(() => vi.unstubAllGlobals())
 
@@ -20,6 +22,16 @@ describe('framed camera capture', () => {
     expect(canvas.width).toBe(960)
     expect(canvas.height).toBe(480)
     expect(image).toEqual({ blob, width: 960, height: 480, source: { width: 1920, height: 1080, crop: { left: 480, top: 300, width: 960, height: 480 } } })
+  })
+
+  it('uses the actual cover crop instead of treating the preview as contain', async () => {
+    vi.stubGlobal('getComputedStyle', () => ({ objectFit: 'cover' }))
+    const drawImage = vi.fn()
+    vi.stubGlobal('document', { createElement: () => ({ getContext: () => ({ drawImage }), toBlob: (callback: BlobCallback) => callback(new Blob(['jpeg'])) }) })
+    const video = { videoWidth: 1920, videoHeight: 1080, getBoundingClientRect: () => ({ left: 0, top: 0, width: 400, height: 400 }) } as HTMLVideoElement
+    const frame = { getBoundingClientRect: () => ({ left: 0, top: 0, width: 400, height: 400 }) } as HTMLElement
+    await captureVideoFrame(video, frame)
+    expect(drawImage).toHaveBeenCalledExactlyOnceWith(video, 420, 0, 1080, 1080, 0, 0, 1080, 1080)
   })
 
   it('does not encode a full-frame fallback when the frame is outside the video', async () => {

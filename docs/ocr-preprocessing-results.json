@@ -1,0 +1,1003 @@
+{
+  "date": "2026-10-23",
+  "branch": "feat/ocr-framing-preprocessing",
+  "protocol": "Same browser-oriented fixture, same manually selected control crop and JPEG q0.92. Tesseract por/OEM1/PSM6 unchanged. Original versus color contrast 1.08 versus grayscale plus contrast 1.08. Enhanced output is lossless PNG; no resize. Times are single desktop observations. Photo06 has no unique label target and is not scored. Interval callbacks during preprocessing are only a partial responsiveness measurement, not a mobile frame-time guarantee.",
+  "fixtures": [
+    {
+      "file": "etiqueta-01.jpg",
+      "sha256": "2fd2b0031803683956f5c21882e29f8fa98ed1cec84e9c2733a2c027a11017f0",
+      "reference": {
+        "visibleName": "OLEO SOJA VITALIV PET 900ML",
+        "purchasePricesCents": [
+          739,
+          749
+        ],
+        "referencePricesCents": [
+          833
+        ],
+        "conditions": "7,39: a partir de 3 unidades; 7,49: 1 unidade; 8,33: referência por litro"
+      },
+      "controlRegion": [
+        150,
+        780,
+        2450,
+        1240
+      ],
+      "source": {
+        "width": 3000,
+        "height": 4000,
+        "crop": {
+          "left": 150,
+          "top": 780,
+          "width": 2450,
+          "height": 1240
+        }
+      },
+      "outputs": [
+        {
+          "kind": "original",
+          "preprocessing": {
+            "state": "disabled",
+            "elapsedMs": 0,
+            "options": {
+              "enabled": false,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 0,
+            "maxHeartbeatGapMs": null
+          },
+          "width": 2450,
+          "height": 1240,
+          "bytes": 318222,
+          "mime": "image/jpeg",
+          "originalBlob": true,
+          "elapsedMs": 1847,
+          "parsed": {
+            "product": {
+              "name": "OLEO SOJA VITALIV PE T BOOM! e partir de 3 X a es unidade A",
+              "confidence": 0.78
+            },
+            "prices": [
+              {
+                "valueCents": 7139,
+                "type": "REGULAR_PRICE",
+                "confidence": 0.79,
+                "sourceText": "71,39 A"
+              }
+            ],
+            "overallConfidence": 0.79,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "OLEO SOJA VITALIV PE T BOOM! e partir de 3 X a es unidade A",
+            "productName": "OLEO SOJA VITALIV PE T BOOM! e partir de 3 X a es unidade A",
+            "canonicalName": "OLEO SOJA VITALIV PE T BOOM! E PARTIR DE 3 X A ES UNIDADE A",
+            "attributes": [
+              "3"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "OLEO SOJA VITALIV PE T BOOM!\ne partir de 3 X a es unidade |\n71,39 A\n9 ST SS RA o\nad ATACADO >*m à\neen — DI armmatil [00 ARIAL O\nE || Phaemadi | | LL\nSi A 2 ATISRIRA ná EA\n",
+          "confidence": 47,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": [
+            7139
+          ]
+        },
+        {
+          "kind": "contrast",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 111,
+            "options": {
+              "enabled": true,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 4,
+            "maxHeartbeatGapMs": 43.200000047683716
+          },
+          "width": 2450,
+          "height": 1240,
+          "bytes": 3184364,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 1586.199999988079,
+          "parsed": {
+            "product": {
+              "name": "OLEO SOJA VITALIV PE T 900MI PARA 2 sa partir de 3 UM inidade",
+              "confidence": 0.88
+            },
+            "prices": [
+              {
+                "valueCents": 739,
+                "type": "UNKNOWN",
+                "confidence": 0.45,
+                "sourceText": "7,39 PARA 2 |"
+              }
+            ],
+            "overallConfidence": 0.67,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "OLEO SOJA VITALIV PE T 900MI PARA 2 sa partir de 3 UM inidade",
+            "productName": "OLEO SOJA VITALIV PE T 900MI PARA 2 sa partir de 3 UM inidade",
+            "canonicalName": "OLEO SOJA VITALIV PE T 900MI PARA 2 SA PARTIR DE 3 UM INIDADE",
+            "attributes": [
+              "2",
+              "3"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "OLEO SOJA VITALIV PE T 900MI\nsa partir de 3 UM inidade\n\n7,39 PARA 2 |\n\n| : A \"5 |\n\nR$ ATACADO >*m à |\n\nEee vt tenso — [O aueatido AO ALA DAR)\n\nPregoeira ess — Oo queen dO OA\n\n2 Vo Fi Balas: 180187 4 MEO\n",
+          "confidence": 47,
+          "exactPurchaseValuesCents": [
+            739
+          ],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "grayscale",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 110,
+            "options": {
+              "enabled": true,
+              "grayscale": true,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 4,
+            "maxHeartbeatGapMs": 41
+          },
+          "width": 2450,
+          "height": 1240,
+          "bytes": 2045769,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 1379.7000000476837,
+          "parsed": {
+            "product": {
+              "name": "OLEO SOJA VITALIV PET 900MI RES 1 o) a partir de 3 ' inidade",
+              "confidence": 0.82
+            },
+            "prices": [],
+            "overallConfidence": 0.82,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "OLEO SOJA VITALIV PET 900MI RES 1 o) a partir de 3 ' inidade",
+            "productName": "OLEO SOJA VITALIV PET 900MI RES 1 o) a partir de 3 ' inidade",
+            "canonicalName": "OLEO SOJA VITALIV PET 900MI RES 1 O) A PARTIR DE 3 ' INIDADE",
+            "attributes": [
+              "1",
+              "3"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "eee A AA 2). E NI OÃAOPAaaACADCO EA 63+! Pe\nOLEO SOJA VITALIV PET 900MI\na partir de 3 ' inidade\nRES 1 o)\n| * é bao | õ J | !\nR$ ATACADO DA —YAREJO =\nRES [aah TI AA\no eemee siena [O aegadio OL AO\nVo . Nla/ 100207 = 66705\n",
+          "confidence": 43,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        }
+      ]
+    },
+    {
+      "file": "etiqueta-02.jpg",
+      "sha256": "3ec28c407f989761fd3680ef5c28e6ef8a50ddd63a309251dc9e986bcf0c8d32",
+      "reference": {
+        "visibleName": "OLEO SOJA VITALIV PET 900ML",
+        "purchasePricesCents": [
+          739,
+          749
+        ],
+        "referencePricesCents": [
+          833
+        ],
+        "conditions": "7,39: a partir de 3 unidades; 7,49: 1 unidade; 8,33: referência por litro"
+      },
+      "controlRegion": [
+        370,
+        1640,
+        1800,
+        910
+      ],
+      "source": {
+        "width": 3000,
+        "height": 4000,
+        "crop": {
+          "left": 370,
+          "top": 1640,
+          "width": 1800,
+          "height": 910
+        }
+      },
+      "outputs": [
+        {
+          "kind": "original",
+          "preprocessing": {
+            "state": "disabled",
+            "elapsedMs": 0,
+            "options": {
+              "enabled": false,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 0,
+            "maxHeartbeatGapMs": null
+          },
+          "width": 1800,
+          "height": 910,
+          "bytes": 384834,
+          "mime": "image/jpeg",
+          "originalBlob": true,
+          "elapsedMs": 894.1999999880791,
+          "parsed": {
+            "product": {
+              "name": "FTSE A a par de 3 unidades 1 unidade é ICN... DIORIAN RS — VAREJO",
+              "confidence": 0.24
+            },
+            "prices": [],
+            "overallConfidence": 0.24,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "FTSE A a par de 3 unidades 1 unidade é ICN... DIORIAN RS — VAREJO",
+            "productName": "FTSE A a par de 3 unidades 1 unidade é ICN... DIORIAN RS — VAREJO",
+            "canonicalName": "FTSE A A PAR DE 1 UNIDADE É ICN... DIORIAN RS — VAREJO 3UN",
+            "quantity": 3,
+            "unit": "UN",
+            "attributes": [
+              "1"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "FTSE A\na par de 3 unidades 1 unidade é\nICN... DIORIAN RS — VAREJO |\nNesta Embal\no messcerttsnss — II INIOTN TO\n] sa aaRRAE TA NA RNA 1) dsirnihá gy areal a CREA\n",
+          "confidence": 42,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "contrast",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 83,
+            "options": {
+              "enabled": true,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 3,
+            "maxHeartbeatGapMs": 47.30000001192093
+          },
+          "width": 1800,
+          "height": 910,
+          "bytes": 3086750,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 1169.0999999642372,
+          "parsed": {
+            "product": {
+              "name": "E SPRSUSTTENIIEITOOT TVCA : ES pres LINES Sã a par de 3 unidades 1 unidade",
+              "confidence": 0.08
+            },
+            "prices": [],
+            "overallConfidence": 0.08,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "E SPRSUSTTENIIEITOOT TVCA : ES pres LINES Sã a par de 3 unidades 1 unidade",
+            "productName": "E SPRSUSTTENIIEITOOT TVCA : ES pres LINES Sã a par de 3 unidades 1 unidade",
+            "canonicalName": "E SPRSUSTTENIIEITOOT TVCA : ES PRES LINES SÃ A PAR DE 1 UNIDADE 3UN",
+            "quantity": 3,
+            "unit": "UN",
+            "attributes": [
+              "1"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "E SPRSUSTTENIIEITOOT TVCA : ES —\npres LINES Sã\na par de 3 unidades 1 unidade :\nR$ ATACADO “Et VAREJO |\nNesta Embail\no mescetttssss — INITIAL\niara or esãas raves BATBSSS\n",
+          "confidence": 42,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "grayscale",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 65,
+            "options": {
+              "enabled": true,
+              "grayscale": true,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 1,
+            "maxHeartbeatGapMs": 32.5
+          },
+          "width": 1800,
+          "height": 910,
+          "bytes": 1753573,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 833,
+          "parsed": {
+            "product": {
+              "name": "OLEO SOJA VITALIV PET9800ML. Sa É a partir de 3 unidades 1 unidade WAR",
+              "confidence": 0.6
+            },
+            "prices": [
+              {
+                "valueCents": 739,
+                "type": "REGULAR_PRICE",
+                "confidence": 0.71,
+                "sourceText": "7,39 - WAR"
+              }
+            ],
+            "overallConfidence": 0.66,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "OLEO SOJA VITALIV PET9800ML. Sa É a partir de 3 unidades 1 unidade WAR",
+            "productName": "OLEO SOJA VITALIV PET9800ML. Sa É a partir de 3 unidades 1 unidade WAR",
+            "canonicalName": "OLEO SOJA VITALIV PET9800ML. SA É A PARTIR DE 1 UNIDADE WAR 3UN",
+            "quantity": 3,
+            "unit": "UN",
+            "attributes": [
+              "1"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "OLEO SOJA VITALIV PET9800ML. Sa É\na partir de 3 unidades 1 unidade :\n7,39 - WAR\nR$ ATACADO .” kt VAREJO À\nss TEL AT\n",
+          "confidence": 61,
+          "exactPurchaseValuesCents": [
+            739
+          ],
+          "incorrectNumericCandidatesCents": []
+        }
+      ]
+    },
+    {
+      "file": "etiqueta-03.jpg",
+      "sha256": "bc948b0edc3b68c448aca13aa1ae8838d933fd8b44d0b0a1688f98b3e2f76447",
+      "reference": {
+        "visibleName": "MAC SEM ESPAGUETE ISABELA BOM GOSTO 400G",
+        "purchasePricesCents": [
+          289,
+          217
+        ],
+        "referencePricesCents": [],
+        "conditions": "2,89: 1 unidade; 2,17 cada: 4 unidades"
+      },
+      "controlRegion": [
+        20,
+        780,
+        2770,
+        2050
+      ],
+      "source": {
+        "width": 3000,
+        "height": 4000,
+        "crop": {
+          "left": 20,
+          "top": 780,
+          "width": 2770,
+          "height": 2050
+        }
+      },
+      "outputs": [
+        {
+          "kind": "original",
+          "preprocessing": {
+            "state": "disabled",
+            "elapsedMs": 0,
+            "options": {
+              "enabled": false,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 0,
+            "maxHeartbeatGapMs": null
+          },
+          "width": 2770,
+          "height": 2050,
+          "bytes": 1048881,
+          "mime": "image/jpeg",
+          "originalBlob": true,
+          "elapsedMs": 3871.899999976158,
+          "parsed": {
+            "product": {
+              "name": "E SENNA É ea. si ” C En No h > 3 À TETRA /",
+              "confidence": 0.28
+            },
+            "prices": [],
+            "overallConfidence": 0.28,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "E SENNA É ea. si ” C En No h > 3 À TETRA /",
+            "productName": "E SENNA É ea. si ” C En No h > 3 À TETRA /",
+            "canonicalName": "E SENNA É EA. SI ” C EN NO H > 3 À TETRA /",
+            "attributes": [
+              "3"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "ada STEEANAÇOS - Ss Bl . TE coral à 1ERR ee RIOS O\nE SENNA É ea. si ” —\nC En No h > 3 À\nTETRA /\nS EA ;\n\" ar A\nALI EANES :\nE ERA EAR k\no EA & '\nÁ lh à PA AAA V\n4 E ARES y\n; VEN Ds E\nVE NES, :\n\" DAS ONE\ne o\nSA ara ts & '\nA E io E/S\n— Cs ARCA\ne O - !,\nTRA DS É\neco RES ONA\n2 RE ar Ar AAA OIRAROI D\nESA ANO A RA USO NOSSA AE RAS\n. FESTA: Ds or e ace o ST Me COCA OA o Sd Eu SS SS CERCO\n2 ESSO\nEA o MEIAS TEA ARARAS Ato\nESSA, |\nago ER : '\n= ET. ã 3\nA SERA NAS À\n—— | UNIDADE, PAGUE:\n: , e RT\n; \"A 5 A = » '\nt CURSA e oo s\nFOSSO Y *\ny ERA Eus. : -\n% ENA e Lo é Ao ua.\ne &, \" 1 x À\nE Te :\nSE E\nAS X E\nE CSN O ANCOARANATAI ' À k.\n... : TD.\nTIRAS NÉ\nESSA das aro ot o Soo NESSES : “e. . TRENS\nA . | CADA |\nPARE A AIANARAO e 2 SETA = Ss e Acao *\n“ ESDSL Dra a opa AN, PESCAR :\n3 PS” 2 j =. é e à... a SE & be CAs SEE Aa\n. sé ao eco o e > A\n",
+          "confidence": 27,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "contrast",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 315,
+            "options": {
+              "enabled": true,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 13,
+            "maxHeartbeatGapMs": 49.19999998807907
+          },
+          "width": 2770,
+          "height": 2050,
+          "bytes": 9297981,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 4449.699999988079,
+          "parsed": {
+            "product": {
+              "name": "i ASS o tr o . f MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+              "confidence": 0.21
+            },
+            "prices": [],
+            "overallConfidence": 0.21,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "i ASS o tr o . f MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+            "productName": "i ASS o tr o . f MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+            "canonicalName": "I ASS O TR O . F MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "suco aci aa RECO OC CEaDa RAD cana do Medion [to alo. eee AO ato tico, Coma na DO ato a TS nt a A nO Ma mn T EA O o LA ú ,\nFO AT \" * — agetEAçã: a me AR LA o o ADE o A a ndo\nSa á já \" FP. - TM mm\nRo: SA S\nSo ETTA i\nME Ao, %\nÀ; SE e\n| E ARA :\n3 SESIE A FR Se :\no RM0.:69934 e\n| menina : :\nFã : E ÓNRA ó\né PESCAS\nRA A, !\nIVA dee\nAO: ;\nCEA A E\ni ASS o tr :\no . f\n— MAC SEM ESPAGUETE ISABELA BOM GOSTO\nSRA\nE CENA o SE Ko PRO RE F\nAs a en eaant ee Sola SER ESTO CEE SERA ECON SRTA í\n= CONT NEIAS Sae MAÇÃS TETPITANs mor a, to = - Ea a a ec ant :\nSEER\nAMAS\n3 dh Pano ARES TA '\no LER Sá !\nais ZA í\nax E )\n—— | UNIDADE, PAGUE:\nS ESSO) 2 -\né 7 E. S ESSES So\nY VIRA A SEER e\nÀ O ARNO : : & é.\ny RE SARA h rescauo rastro\n| ORE : PS ESSA\n\" 2 * : S\n: : R e Fe\nESTRIAS : ó\nENT:\nTRES:\ne 4\na “a Ar\n—D—DAAO E RA DOAÇÕES\né TIS Á E EEETrTEc————== 7 - :\nSS A AA A RA AO ARA FF - >— — :\nEaD A. o fã. SE = E ; í\n[ARA usa VISEU E 3\nSã ENTE S ADS OU VORA SAD AA ERROS PEROCEEA e.\n. --. a õ fe p Ee : ps e Y SESI:\nos r sé o eco A as Bea SERES Y 1 Cod : :\n",
+          "confidence": 27,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "grayscale",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 237,
+            "options": {
+              "enabled": true,
+              "grayscale": true,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 11,
+            "maxHeartbeatGapMs": 38.5
+          },
+          "width": 2770,
+          "height": 2050,
+          "bytes": 5724107,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 2748.100000023842,
+          "parsed": {
+            "product": {
+              "name": "ã& À 0068 ? E DasáDia sã = UNIDADE, PAGUE: ses \" é L) A oo",
+              "confidence": 0.79
+            },
+            "prices": [],
+            "overallConfidence": 0.79,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "ã& À 0068 ? E DasáDia sã = UNIDADE, PAGUE: ses \" é L) A oo",
+            "productName": "ã& À 0068 ? E DasáDia sã = UNIDADE, PAGUE: ses \" é L) A oo",
+            "canonicalName": "Ã& À 0068 ? E DASÁDIA SÃ = UNIDADE, PAGUE: SES \" É L) A OO",
+            "attributes": [
+              "0068"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "REA o RA AA A A AA MASSAS oa o ao OR a AO o E ROO TIO EE eae IT RAE O O O o AO ANA a oo E Mr \"\nSs a ax à 1 do pe ” EMI OO EA ”\nRMS .:69934\n>\n- ã& À 0068 ? E DasáDia sã\n= UNIDADE, PAGUE: ses\n\" é L) A oo\nó FE A É ”” fa o AA\nPAGUE:\né e\nSE cce\nSS EEE\n; o\nSEE DA: 89\nfo e\nANDA. IRIA é : Pe r— - - be e . 3 A.\nEA MOEDA = : — ————\nESA Ta = FÉ ESSA ASAE ça\na 2 aa a dE\n2 cava DE\nRR Ro os SAVE o ao E: é h DO\nNEL SA o MOL SOTRTOANA ERES SEBOLCAR ASARROO\n: é es o. * .*” Bo AA Aro : vm -” : ' ” ON AMC AA:\nANTICORPOS, SE DOT, Pálio. Dre A b sá ; is ARS REDE asas Arias Aos\n",
+          "confidence": 29,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        }
+      ]
+    },
+    {
+      "file": "etiqueta-04.jpg",
+      "sha256": "af4635d3a8d710b84e2d64e456e91522c0f6e8b4c1178a09b54f9bdd5b380573",
+      "reference": {
+        "visibleName": null,
+        "visibleNamePrefix": "IOG INTEGRAL ORIGINAL BATAVO",
+        "purchasePricesCents": [
+          329,
+          349
+        ],
+        "referencePricesCents": [
+          2066,
+          2181,
+          9212
+        ],
+        "conditions": "3,29: a partir de 4 unidades; 3,49: varejo; 92,12: caixa com 28; 20,66/21,81: referência por kg; final do nome não anotado com segurança"
+      },
+      "controlRegion": [
+        650,
+        1170,
+        1910,
+        1000
+      ],
+      "source": {
+        "width": 3000,
+        "height": 4000,
+        "crop": {
+          "left": 650,
+          "top": 1170,
+          "width": 1910,
+          "height": 1000
+        }
+      },
+      "outputs": [
+        {
+          "kind": "original",
+          "preprocessing": {
+            "state": "disabled",
+            "elapsedMs": 0,
+            "options": {
+              "enabled": false,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 0,
+            "maxHeartbeatGapMs": null
+          },
+          "width": 1910,
+          "height": 1000,
+          "bytes": 491847,
+          "mime": "image/jpeg",
+          "originalBlob": true,
+          "elapsedMs": 1016.8999999761581,
+          "parsed": {
+            "product": {
+              "name": "\" DENEITENTTE : | VAREJO EBCXA C/ 28 = e (Madi Kg — MedekgRASALa Se",
+              "confidence": 0.41
+            },
+            "prices": [
+              {
+                "valueCents": 9217,
+                "type": "UNKNOWN",
+                "confidence": 0.26,
+                "sourceText": "EBCXA C/ 28 R$ 92,17 = e"
+              },
+              {
+                "valueCents": 2068,
+                "type": "UNKNOWN",
+                "confidence": 0.22,
+                "sourceText": "(Madi Kg R$20,68 — MedekgRASALa Se"
+              }
+            ],
+            "overallConfidence": 0.3,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "\" DENEITENTTE : | VAREJO EBCXA C/ 28 = e (Madi Kg — MedekgRASALa Se",
+            "productName": "\" DENEITENTTE : | VAREJO EBCXA C/ 28 = e (Madi Kg — MedekgRASALa Se",
+            "canonicalName": "\" DENEITENTTE : | VAREJO EBCXA C/ 28 = E (MADI KG — MEDEKGRASALA SE",
+            "attributes": [
+              "28"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "PRECOS POR UNIDADE EM (R$) (150GA) — TRIB: (0,00% D\n\" DENEITENTTE : | VAREJO\nEBCXA C/ 28 R$ 92,17 = e\n(Madi Kg R$20,68 —  MedekgRASALa Se\n= VON En Ext\na— 2650:APAP —— DNS ua io iu cual : ——.\n",
+          "confidence": 44,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": [
+            2068,
+            9217
+          ]
+        },
+        {
+          "kind": "contrast",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 103,
+            "options": {
+              "enabled": true,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 3,
+            "maxHeartbeatGapMs": 49.30000001192093
+          },
+          "width": 1910,
+          "height": 1000,
+          "bytes": 3749413,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 894.5,
+          "parsed": {
+            "product": {
+              "name": "em A LENU E Es Na",
+              "confidence": 0.02
+            },
+            "prices": [],
+            "overallConfidence": 0.02,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "em A LENU E Es Na",
+            "productName": "em A LENU E Es Na",
+            "canonicalName": "EM A LENU E ES NA",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "À “reco ron uncADE E (na (onam — 6. nani |\n\" DENSEITENTOE : | VAREJO\n\"EB CXA C/ 28 1$ 92,172 e =\nem A LENU E Es Na\n",
+          "confidence": 34,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "grayscale",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 76,
+            "options": {
+              "enabled": true,
+              "grayscale": true,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 2,
+            "maxHeartbeatGapMs": 31.899999976158142
+          },
+          "width": 1910,
+          "height": 1000,
+          "bytes": 2152399,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 1049.199999988079,
+          "parsed": {
+            "product": {
+              "name": "1 3% EM EB CXA C/ 20 A$ 92,072 = 2 Vim Se",
+              "confidence": 0.64
+            },
+            "prices": [],
+            "overallConfidence": 0.64,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "1 3% EM EB CXA C/ 20 A$ 92,072 = 2 Vim Se",
+            "productName": "1 3% EM EB CXA C/ 20 A$ 92,072 = 2 Vim Se",
+            "canonicalName": "1 3% EM EB CXA C/ 20 A$ 92,072 = 2 VIM SE",
+            "attributes": [
+              "20",
+              "2"
+            ],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "à “Fhteos ron untoae fi (ndo ienam — Tdi: (0unh\nAA AR DE 4 UND : | VAREJO já\n1 3% EM\nEB CXA C/ 20 A$ 92,072 =\n2 Vim Se\n",
+          "confidence": 43,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        }
+      ]
+    },
+    {
+      "file": "etiqueta-05.jpg",
+      "sha256": "65fbf96714c34484e826b8ee5aba4fdfd8331872ff5808e76f2ec90251cf519b",
+      "reference": {
+        "visibleName": "OVOS BRANCOS",
+        "purchasePricesCents": [
+          1498
+        ],
+        "referencePricesCents": [],
+        "conditions": "Preço exibido 14,98; confirmar interpretação da unidade/embalagem com o responsável"
+      },
+      "controlRegion": [
+        1360,
+        1630,
+        670,
+        1130
+      ],
+      "source": {
+        "width": 3000,
+        "height": 4000,
+        "crop": {
+          "left": 1360,
+          "top": 1630,
+          "width": 670,
+          "height": 1130
+        }
+      },
+      "outputs": [
+        {
+          "kind": "original",
+          "preprocessing": {
+            "state": "disabled",
+            "elapsedMs": 0,
+            "options": {
+              "enabled": false,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 0,
+            "maxHeartbeatGapMs": null
+          },
+          "width": 670,
+          "height": 1130,
+          "bytes": 210258,
+          "mime": "image/jpeg",
+          "originalBlob": true,
+          "elapsedMs": 743,
+          "parsed": {
+            "product": {
+              "name": "Ss o Red. PV &e pp. Fr sos, À WI d FZ",
+              "confidence": 0.08
+            },
+            "prices": [],
+            "overallConfidence": 0.08,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "Ss o Red. PV &e pp. Fr sos, À WI d FZ",
+            "productName": "Ss o Red. PV &e pp. Fr sos, À WI d FZ",
+            "canonicalName": "SS O RED. PV &E PP. FR SOS, À WI D FZ",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "Ss\n. o Red. PV &e pp. Fr :\nsos, À WI d FZ\n\n| É\nPARNÇCO! >\n: ) fa ff\n\n= FNE eus ]\n\n3 À A)\n” É ] É mm ; A = > “ X |\nP 5 FO y | E À |\n\nEPNIO)\n\nA A > &É\n\n== E : LE\n",
+          "confidence": 40,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "contrast",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 47,
+            "options": {
+              "enabled": true,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 1,
+            "maxHeartbeatGapMs": 16.19999998807907
+          },
+          "width": 670,
+          "height": 1130,
+          "bytes": 1661489,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 512.5,
+          "parsed": {
+            "product": {
+              "name": "AAA: fas É. WA ANÇ JJ A",
+              "confidence": 0.2
+            },
+            "prices": [],
+            "overallConfidence": 0.2,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "AAA: fas É. WA ANÇ JJ A",
+            "productName": "AAA: fas É. WA ANÇ JJ A",
+            "canonicalName": "AAA: FAS É. WA ANÇ JJ A",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "AAA: fas\nÉ. WA\nANÇ JJ A |\n\n— PAANOS\nENIO)\nEs (UN 7\n",
+          "confidence": 39,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        },
+        {
+          "kind": "grayscale",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 40,
+            "options": {
+              "enabled": true,
+              "grayscale": true,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 1,
+            "maxHeartbeatGapMs": 18.600000023841858
+          },
+          "width": 670,
+          "height": 1130,
+          "bytes": 885143,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 327,
+          "parsed": {
+            "product": {
+              "name": "ISO É",
+              "confidence": 0.62
+            },
+            "prices": [],
+            "overallConfidence": 0.62,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "ISO É",
+            "productName": "ISO É",
+            "canonicalName": "ISO É",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "OVOS\n\n': PARNOOS,\n\n: TI 3O0ouUN\n\n: :\n\n-\n\nISO É\n===\n",
+          "confidence": 25,
+          "exactPurchaseValuesCents": [],
+          "incorrectNumericCandidatesCents": []
+        }
+      ]
+    },
+    {
+      "file": "etiqueta-06.jpg",
+      "sha256": "8455d5e1ef03ca359db21b612a1f6b3738eb9ae74e25476237901c2513c02786",
+      "reference": null,
+      "controlRegion": [
+        320,
+        360,
+        3360,
+        2280
+      ],
+      "source": {
+        "width": 4000,
+        "height": 3000,
+        "crop": {
+          "left": 320,
+          "top": 360,
+          "width": 3360,
+          "height": 2280
+        }
+      },
+      "outputs": [
+        {
+          "kind": "original",
+          "preprocessing": {
+            "state": "disabled",
+            "elapsedMs": 0,
+            "options": {
+              "enabled": false,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 0,
+            "maxHeartbeatGapMs": null
+          },
+          "width": 3360,
+          "height": 2280,
+          "bytes": 2223984,
+          "mime": "image/jpeg",
+          "originalBlob": true,
+          "elapsedMs": 18918.400000035763,
+          "parsed": {
+            "product": {
+              "name": "Lo À W À À",
+              "confidence": 0.74
+            },
+            "prices": [],
+            "overallConfidence": 0.74,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "Lo À W À À",
+            "productName": "Lo À W À À",
+            "canonicalName": "LO À W À À",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "ME o |\nLo |\nÀ |\n|\nW À À\ny À À : É pesar o dan EA O.\nX “ Ses : : ó E » se PERA\nú ó | | % \"E E —— -? 2 so À W\nA À | % gaga : “= à / 1” É É “o\n| | ET aa ai 2/25\nÀ | E TER QO 1 Uh na SO Ao 4º ESRZ SOS ocsccaaA O\nA & : | : 3 xá e tac ANEL [EE ER] fi\nÀ Ê s : Y emo ss “ E e Ie É [7-2 7\n: SA Es ANNA : é RA 4 5 fiauadlE, [icons] Á\nÀ RSA A o. s. E à. e SAS nm. Ma==m e. EE Ri E NETO ui (a\nEM ASA o É a RR | ooo CEA. BESENSTTETITOAS\nJJ x SPP EX Peep é E (Wosa 2 DA Sur O ATE a\nSAS o JANLNEESOOS oO, FA EC / É TE eEAR SS SS TRANSA | Eme Tso A E\nSE... NS & MEIASF AN E q FF = NO í 1\nNX A. é A SS D FO o) E ” oEacASS RO VETA = Êq Zz sas. E ES e /\nESA * : RC ARIODAAA RR lb SD MEs=sCA AIC = FAS o fas. ” |\nnã SS & O We á We E Se: a Wá PA fi == F FTA RS O o F ES == IRA\n= LA = ; SS 7 ecoa S FE) ) S&S. te ta =) Ee | Pr= TUE o | EA 4 b j À : To x o\nS Sa AN MIS ST RO P Ms PNM We e 1 e TS\nAee ABRA | ATE Ao: 3 rr À : » PEA LES, =\nPIN a AA so : SANA AZ PIN E EE É\n“sé Sd ; YX | | seco AR %* N rr. aço 3 A EA % —s kk.\nES 164. 4: SAB VA — ASS: eo\" SS\n£e Ar. Pr : ; = ' Ss SS : A TM ASS 1 ERRA, TS e E)\nDAS (É | SS CSS 18x e SSEPWSTC BI)\nE. — e É o * Sé É =. : É / j ; \" id < NA Som a. e) Sel “ á OR EA\nMis AAA CR se A VARRER a e A ER SEDA (LA >. OS o em SS 21) é RR / of E af\nCG ENA, 14 FO S CERA mm IE TN Pu JE MAES /: & Es RUA PINA A ” , FF” Ee\nFERE | RA, > — AS Fi Y k HARBST TA LSDAL, MMA S FAS Á ep ERECÃ, WS , À E ” ES\nGEARS: ha = & A : ABR RE PASS SUNS DS A : Sn Vá 2 esa És 3 E\nSEM) O =8. Ps & : Ab sa VITA VSEE “o ] W. LES\nTOCAR Ps ES o 1 AM é 5 1h NS SE Eos O x Ns b ? * Va ê\nE DN - ME NS =P. i PE DC — SA SA 5) E E Mest e PÁ is A : : =\nEL jez EoA í SEER qe! 12 ENE E conigéo sie OESSTEZES VARA ESSA. ago ES S Y” tá x £ Mm k ÇÕES\nCA ses 1/72 AA = ão) E os CEE E ita Ria WEST EO a Ne SEO SON S : ã. Ne a , $ NS É & SA\n- GIAL AR EA ú = É Es SEI E x Á US lex 26 26 ANSSIRULDA. ANN 3 E? = sd * Ss ASS NB > ra h “ SE\n= GOT oo nd < MM PH A 18 SE; aços fl ARS AMECIDADAO 7 bo o Es Es | SS EO Fr) Y S NE\nAos A a MFA KSA 22 NTROSRSS OS WAL — RS = A S -\ne Ss =. EE \"e É sã ES ” s Hjir fia É E Z “=| õ SW. SS ANS FMSS. of $ : | DA -Z > NS a TA -.\nfts Sb 7 RE = Y foz ; “>: ses CANSO il \"ao E Cork NS TS ARA.\n(SS CPP aa St PVENIIOSSOM — ROSS SOS 2.\nFis SR O Jaya 6º 5 ANT, NE Ex 5/(O Bat . Fo SO): ATE 4 ES AR JAIRO a\nj É, XY “e - ss Ao IS às O fez 3 NEC REA * À Ss, STE A 44 No PF. IDR\nEN O. um X É É 1 A > él € EA ó TEA ATA SS V Tão: NS & O & vv. É X E Í\nbeer Re.) «6 == | é UA ue Sm BEBIDA e, [Ea WR RITA o = Css DN. À mm. E. PN VA\nAOS : - o \" a PÁ o 2. mm SS & AV - SE\nk á FDA Ss: Se. dd MORANGO - SS RE Fe Fe CNN) VS e\nFA ” Y > WA AMON ÇA ta. É 90 - \"as E js = A ZALNTSD, AN SD. Ro; $\n= EDS O LDO SMA AS. À . ão O0g 5 dr Ee 7 e (SC PS SAO oo RW E ;\nde < 4 e ARas õ OM à ? SE »D de e (/ E TIS (o) : : é i < ol\njo — O É E] . e. EV ISSA > 8 = ss É KA É t. NA. iz À SW CD ó ?\n= ” K) ./ ” o ? À É P , NS = e E S A = NX * <78 A Y ) A S VD) s / - 7 Y\nTs 2 4 f PP > FP C sm EM O 7 ”o S AND NO SAP to Ah V Ê f\nOM CEAR VE- ME TERA Hz a” | EEE S GC : 2 SENTA 1) FX\nFG ; Pa ; : E m 1& o 5 : X>) N O and : Leo ABES AR <a WR : NX ANE\n= s & e SA ' Ê ” a ão : f unade = OU ” É = Eh : 3 & ã »: f TN = is Não ao V > V\nME >? + Í DO = Es a j + fo FU ooo Pre PN í AL À = E » S -. ei. —. é X W io 2 1 uu\ny e, aaa A 67 Favo PV q ee oc Dim, E = Se x Ea AA ASS\né FE 1 = j TANANESIS E o = ESA no 1 ES (GE eos ANA Es ANS\n> af HR: Wee SP A 21 O 2 \" Fr o) ee = NES\nZ 1 DE) PP 4 É fo LS T FÉ FP o oa dá ; rm EE ss —s : INI -W Aa a ENS = * So A o See\nMESA D SH OTIS: DD em GG So : Re À Ee : ES 858 VÁRIOS Roo Com VA MW lb, |\nã& FNE j foda 13 & MA fes”, - fe Mo rate lia so à ASTSRIRE o .. lo CV BSS iEEZANOS,.\na: 4 as ão & FAS + y, ; SW SA o See nã | Z S e\nDS Ee é  “*“ Aa AR j dida és. p=\" ; PO : EEE - [USINA Sr Vo “4 D, gr /1/ PPA RR: x\n",
+          "confidence": 32,
+          "exactPurchaseValuesCents": null,
+          "incorrectNumericCandidatesCents": null
+        },
+        {
+          "kind": "contrast",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 486,
+            "options": {
+              "enabled": true,
+              "grayscale": false,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 18,
+            "maxHeartbeatGapMs": 49.30000001192093
+          },
+          "width": 3360,
+          "height": 2280,
+          "bytes": 16024283,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 20282,
+          "parsed": {
+            "product": {
+              "name": "Ve: À À À À : : : SAAE NX A ã á Ce ME” SE",
+              "confidence": 0.83
+            },
+            "prices": [],
+            "overallConfidence": 0.83,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "Ve: À À À À : : : SAAE NX A ã á Ce ME” SE",
+            "productName": "Ve: À À À À : : : SAAE NX A ã á Ce ME” SE",
+            "canonicalName": "VE: À À À À : : : SAAE NX A Ã Á CE ME” SE",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "ME |\nVê | | :\nY\nVe: À À\nÀ À : : : SAAE\nNX A ã á Ce ME” SE\n! À ] 4 * : 1\nú Y em, , É É ESTA\n| | Posse (LXHTRZA A\n; E Tato O Ti | Da Ro ESC CEC ooo cosa ARA)\nÀ . ” | j b: E as < e) EB CA Ra\ne sc]... : À EE oi REED\nY SNS QU E. \" OS Nas T=\". e ES ie | Di\n- > SS SS RA aci So TA E 7” < ORROA à ces ANSA > air ÍNDIS FARSA j\nÀ AR SS & À - sm — EA. SER E * í y á : = Se é RR Pra É ja FE fo: jo 4\nE * CN es. s— Seb A > A 0 ARNAERO o 7 Sino oct Mereço A\nÀ > “ NTE /) o Ex —= aa A o oi nas É\n= ROS AAA Dita Dão Sã ao E PAR = 22 e EEE), PP”\n: 2 * GRITA ee CLA MR : AA: S : Jc TRAS, BE di É isso cos Ip\nSE. TM XV E 2) LO DD d : : SS À , ; to sea A RSS NAS a 1 É fio, ssa E] E\nDs PEA, AAA ARE, E WU (R => ll).\n& oo EIA EIS: CASA — \"MÉEÉsRS =) TISBEADA o (ao TIRANO,\n< FE 5 MA Pá A » ez ME==2 ST TASSO — o... : Í\n= O SS o CC esa E A Voa, ALAN 1 Fase o = -\nWE = x APT LAMA So. SIA \"l PRE ASS\n2 N ao SS Ss VOS À Jan Ao CM me à CASPIBABSS o | N\nEa Z - V LTS a à Pc eo Ao AR CATA “ e\na | ooo AEE E Ac à NA E\n(Fe “ ; SA o Ec Ar MESA “AR NE BS 3\nTea 168” / E y x o Z £ E TCE ES Vl KW NA ES\nEB, A: \" WA Es ANA A SV /. : = ABES NS dos io SN\nÁÉEZ= É Bo, & / 7 ES WA : Y = PRN: A SM. FS AA 2 í Os\nSO S | ez + E SA ! E SSD See E do\nE. E E Í: O > SEM: SN F” já j ; Qd < Seo RN e SAD SOS\n— ESET ANA 2º Foge 24/31 RAN oo 2 ALEC: PAP o o 1º PEER o\nO ed // E. Doo RA = 2 Es Ê: VW EA DIA EEE VEZIN SO : Ee E ão ES NAN (Re TA s E\nEESSCIEA — a. É N t: A Se MAS SARA So. o E £) AN jo À EA MA NO\n7 | My -:s. HW XP 4 : dé > IAN St e 27 ANS O) dA jÊ : A &\nE A MESA || - PER Ve sé PANA Seo NAS CATA ses PAR Vá É tt\nMR ” ' - < Tete À 9 o rica RAS ES. ss E” as : SS : 5 a >\nPED AoA Sr SERA ei E A ADD Useiose. NR GSE o RSS dc AR \"| o To VS e\nRo SARA Ê É. = Qu: IES Timm, EAST NAN ESA //AAA AN SS STAND. : ; % O % x\nDs AR O RE Á : > = Es. rir E (É á fre HE CORSSCSOSOS ANSA 7a AM abs id) == dA fe MN NNE\n= o TRA Cano ATRIZ BA IRC (6. SE AoAZ ss ASS CARS ea, É 2 oC A Nx Se\n- ne. = E Rs É = GA E & 1a TIKO,; PASSES CPE —— Seas : A NS e.\nA = EN EA. = Px N si for 1 ” E 2 SS ne % “of é SON TAN. SE EA ==\nA A Bo Soo Po oa No J MS DL SAD. í o ER ESCORES (hist AQ x SE AX S& :\nES PAS E : CARE | t - E) (DZ x NS = eae CU NT Sm ARNO\nFSLN A A od ÉS. > \"O Á — o 1 E 7 << im : e À OTA == É p SW ÁS LC .\nA E O 25 FÊ 7 sh TAL OP ; E SA Fasso SNI) WE v RW NX O E [8 . a\nCH JR S r 2 4 % JA S E MS NEEA: 3 À AOS AD ASS 5 SA S E 4 7158\nKA! o = DS RENDA [ED BEBIDA LÁpreo. MED NE TA, E. a. Wa E AA Í\n& PF | é 8 RO * o ASA al od Ms = MO SR AE S/ STARS\nVA à ; + Es io: = = e , o e 7 RANGO St >. se > Sm EN A Ro É S SE\nMa Do Sé UM SMS O 2 NE. E 2 MENA ou SS Ss o — | . PESSOA NE ENS 0 A\n2 a Ps Fa : FF JP Go 23 = À E D = É VR RI YZ e ET —\nis + DO ss 8 TE É Es S> = | É QRSCAAÇA, * e/8 4% WD, &: E ANE A Bem\nCM E NA o = = Fá > fz, = (2 ma sê SF 4 = 3% .”. = À WE 2) = NR 2) SET P Pá .\n2 = ; E ; A à S ms o tá, - = 5 a À = N & Ç CR UR. PD * - é e N & Y b Ss &\nFÃS i “% + í í Es E E 8 P é nado 2 A Ou PR = and & ee < P— ss = Ss. NAN S\n” : L AXO E Seo, FX ova à. — DOS \"EZ õS ee. == Re Res OZ é\n: sã ENA = do SA e. o o e, MO E o S \" o, SNC 152 TEL e\n” seas Pe % é 667 Fiynobiavu Vai Á = 2 ; É Fran ; SS = SAS — At SS\nf HT “S = e AANSASA CANADA d > & al S [e os “SE FERN “% 5 ASS\nj no” 3 LED: \"RE É : : : | =. \" S Rã: Í VE ARENS o = SAN\nESSO 7 AA. on : À = “mo \"S 8... h EX x === NS\nE A7 ÉS T CAES | or VEED E — : \"NNW O! AO Bs Se NEEEAA Sã\nCOMES FRA O) SE E ot EE S / E É. io E. 3 À Liso! NO Sb E a E N J See\n- Í 1 Os. \"SL SE Vez) mc) ASR : a AEE - 28 GDS PÉ P o EE == O E SE Vac W ben\nOS a: &) SAN SS NA rat la CESAR ASSES TT.\naÃ) fe fi - E MEC à. E. + it DESTEEI] =/ SNS TM /1 URSOS eo SS\n",
+          "confidence": 33,
+          "exactPurchaseValuesCents": null,
+          "incorrectNumericCandidatesCents": null
+        },
+        {
+          "kind": "grayscale",
+          "preprocessing": {
+            "state": "processed",
+            "elapsedMs": 359,
+            "options": {
+              "enabled": true,
+              "grayscale": true,
+              "contrast": 1.08
+            },
+            "heartbeatCallbacks": 16,
+            "maxHeartbeatGapMs": 48.89999997615814
+          },
+          "width": 3360,
+          "height": 2280,
+          "bytes": 9098910,
+          "mime": "image/png",
+          "originalBlob": false,
+          "elapsedMs": 17856.100000023842,
+          "parsed": {
+            "product": {
+              "name": "7 PA TE SS AP E",
+              "confidence": 0.45
+            },
+            "prices": [],
+            "overallConfidence": 0.45,
+            "warnings": []
+          },
+          "resolution": {
+            "rawName": "7 PA TE SS AP E",
+            "productName": "7 PA TE SS AP E",
+            "canonicalName": "7 PA TE SS AP E",
+            "attributes": [],
+            "suggestions": [],
+            "ambiguous": false
+          },
+          "text": "Y Po. A À j ; ts ia no ER 47 Ro RR A RAS A | |\n| V à df FER a Do ETA A E) É V\nY SEAS, E” EE - | — É” & g fe à\nY EA | E do. AN E nn aos Tá: fá\n: Lo ' | 3 TE GS nm NW IR à) Pá EE), x NA\n| “o ' | to oe ; S ML! PE O; NM — Ef) >»\nCEARA dceeçanl FNAS k sê É; faralS, [issooeç | q\nNS “A | é CER Ses : fá sito Ed DisT í j ;\nV Y m e reef & EE 1342 Fo ie h í\nCe : ESTE ] = Pr. Ts. ZE 1\nES ESSE. TS “a ADO mo —— = e 4 [ ES) LH)\nESSA PPS SR à A A -— &s * AREA sã OCS = DE dis É [EA HERUEO\naa A RE so O PE é MME [racao == E e — [E Re: fe fio fo |\n= : ) NS = f S $ : -. S ” FEZ - ea bo A am . À > TIE GENAZVA/\nOR “ DR SE & É, >>. PÇ FA Le » sad ANE) Em e nf: /\nÀ ao SO q . Sp À Ex ” SITU = CEA = à o = ES e - aiii 2\n: PE S We” ” ss. N Xe SE e AU LJTS S =. So E Pl . Essa - &- se os o Ç 2 Proa. o :\nVas QAW-S Aida AN > TP, PÁRA NS = Pr À: SONS 2 1 Fx= W\nWAS AA SAN We Or ARE : Vim, ; Si Drº Ã ; VL E. À $ M : E SN\nCASS à Na & ES OZ DO RR) ED SS SW fá : a =. = : . 2 | t\nk 2 e *. AM ? ” E LA AA NS : a: mal S/a ã ET: no TT 4 ES À ro) Só ==\n7 LES : =. . = É  . à. it 2 7 6 Ás NV e. é A i > e ss é N Ne o VA) % o !\nRSS SE Tão, cm 3, Fra é VS 2 : To (1 e. se TM Y No ÉS Si NA —\nÉ = VS TE ae A ( ESSO T 2 SS 1 Ve = RE — ES Ss ã r. RES Y À\nE. ó ; tone da x mo AP SS 17\nEE AA Ao DE UBE A CC SA S PDA Ss Ss ss Ss, LONA lo ——\n3 : 1” ; NA UVAS) ; CA. AS — AA : ES AGA\nTERRE ”r fx É es ú NEZ A / : il Ca VSEE ES. ss “A ” 7 '\nIME D EV LAI ANWE Aa ITA OO 77/Eo  S ” Í Ô\nSE Do ao O ke e rs ss S à, AN EAR Pr x ) AS AE. É SE ns b “ à. é ;\nESTSANS o ae E SRS PINS MNKEE: AFA AROS VF, : TR í :\n— TARA — CT Dr NA SS AS E, ; ee, e o. fo SS COTIA SE SNS A ÁS \" fi : Tas\nEs 11 EE Ste 1) % Se E. PIE \" [VN . WAV À ú : — | ' N * SS f ; :\nIRa | A sal hi 3 Ss o MAY SE Se ld |/ SA. w SEX. 2 - Ee? . SA A Y e\nA OR MA = en) CANSAR i DG — RAT SCE So MRE A ENS Ab Es . -\n= ” “ob AT BP NTIRO, ECN 22 DA: S&E--of TORNARA fo TA De Wo)\n—— AT = gde Ts E TIRO sh ia. / TOR Coe SS À EE?\nae : = Att s JE Ni PP NSNS ; EE Em) MSSTAS ADA: AL As NES Se\nSs. EEE E 8 3 = Re Hj fis E E NY) Ses SS. À — = AA = k Pa \" S Bo : x À * 4 ( p ; V\n-— RS - aos ã “OE = 2 SA > pot ] 1 E é) [E EN & - mx MW js < WS À W É “a Ne re |\nBD No A Es PÉ. Ss La O 2 27 o Ee ADA ã K) | MS ? NE\nPr Ab SS We Ee od ja 3 MT) O DP o 4 5 2/0. PR SMA A: AD ho SA W : DR Neo\n(FASO \"NA SS >. a ú É: SS su [857 SEL +. e — 2 > NX RA E. |\nANY Z. Est * À PEBIDA LÁ pos bras : Seo 2 |).\nRAS TS” A, VE FU fo LO EA 1a ENS 2º WA E = — FP\nTN : ã a & À 1 tico dm E = E ] (Wes CAS 2 ão PJ,\n—— si AOS ” & 6 = 2 Asa me” 2 YR \"7 900g FTSE ASS COCO : e - t = S O A. À > | é :\nS&S. e: > RAND TA. SM —ES SAL 2) AMA NAMAS: > FA /NZ\nSERIA e Fo Ke A a NS Pa * Nes\" NO SA SNL\nAA 7 SS ” E, - 2X, ATrTa E sm A = Se: DIS TX Vaga A NS\no Pa Am S : FÊ é A O US frita EC ES e É sa à 1 \"exo EM ee = elheTTE N MNeces À %\nFAS O. XE: = ã Aka O les e É ss Ae: CR SABIA: ás ) NS Y\nDe DO HD Z Á SE / So “E Ss & E ; = NWA NS\n: : ; ”r / | » ê & tão fO pinho D ”. D nado PS í AN com & = : EX É =. Fãs x Da v RS ZA e;\n— : ! Ex “6h bia é e b. Ss : EM e É dx A me) S\nE , “e É PAR co é PAR ad = : \"oh F ivyNnobIavLL Vai p À 4 =>” : =. o FF Y - » SS :\n; ! : Po. : | Lg Y | W oo HH 7 | IN e ger VNSBBR (|\nE, É 5 ARO soa oo a ARTS - 5; = TE ao , st í A =) L EE o ia = À dx AS Lt\nCá LS 1 153) É Ns é, > E: [caes BZ\" DR A v VÍonENa j Hi CEEE, Pim É À ss À É C TS OZ SS ão\ntá ; 7 ShDERAS <= O /<T EE é à ouaDONA 25 ES BA NB S\nÉ Dr 4 É se Ô Se VAEAND < E ma TA EN Y = “esecassanendao” | SS\nATER ' E3E E RE x, : PARES A MBC os à 18 é FEET ES SI ASS E UM :\nfe a 1 As SAS. E o TAS H Eca o Há | TETE = [UNNH se | sap e OE\n= . Pr ” z e y do? AB $ ia x pn: A me = TE ME he :\nMP WO E po né : ' so. ES i j : DATA ZIÇOA á EBarr | ”\n7 PA TE SS\nAP E\n",
+          "confidence": 33,
+          "exactPurchaseValuesCents": null,
+          "incorrectNumericCandidatesCents": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Issue #28 — moldura e recorte para OCR
 
+Registro histórico da etapa de 19/10/2026. Para a moldura 3:2 e o pré-processamento posteriores, consulte [ocr-preprocessing.md](ocr-preprocessing.md).
+
 Implementação da seção “Decisão aprovada — otimização final do Tesseract” da Issue #28 (19/10/2026), sobre a main `a15db78`. Branch: `feat/issue-28-ocr-framing`.
 
 **A geometria do recorte foi validada. A melhora de reconhecimento nas etiquetas reais ainda não foi demonstrada. A issue permanece aberta para validação humana no Galaxy S23.** Não houve mudança de motor, modelo, PSM de produção, parser, resolver, dependências ou lockfile.
