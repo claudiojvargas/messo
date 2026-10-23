@@ -13,7 +13,9 @@ if (!app) {
 
 const isApplicationRoute = window.location.pathname === '/app' || window.location.pathname.startsWith('/app/')
 
-if (!isApplicationRoute) {
+if (window.location.pathname === '/app/ocr-lab') {
+  void import('./features/scanner/ocr/paddle/experiment').then(({ mountOcrExperiment }) => mountOcrExperiment(app))
+} else if (!isApplicationRoute) {
   document.body.classList.add('landing-page')
   mountLandingPage(app)
 } else {
