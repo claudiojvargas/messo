@@ -1,0 +1,1944 @@
+{
+  "generatedAt": "2026-10-23T01:42:24.308Z",
+  "platform": "Chromium desktop; persistent profile, browser fully closed and relaunched with network offline before navigation. Not a Galaxy S23 validation.",
+  "externalRequests": [],
+  "offlineFailedRequests": [],
+  "cartLoadsPaddle": false,
+  "preparation": {
+    "initialization": {
+      "backend": "wasm",
+      "webgpuAvailable": false,
+      "detProvider": "wasm",
+      "recProvider": "wasm",
+      "assets": [
+        {
+          "url": "/ocr-paddle.local/PP-OCRv6_tiny_det.tar",
+          "bytes": 1792000
+        },
+        {
+          "url": "/ocr-paddle.local/PP-OCRv6_tiny_rec.tar",
+          "bytes": 4526080
+        }
+      ],
+      "elapsedMs": 676.7000000001863,
+      "pipelineConfigWarnings": [
+        "DocPreprocessor is not yet supported in PaddleOCR.js: config will be ignored for now.",
+        "TextLineOrientation is not yet supported in PaddleOCR.js: config will be ignored for now."
+      ]
+    },
+    "cachedResources": [
+      "http://127.0.0.1:4173/ocr-paddle.local/PP-OCRv6_tiny_det.tar",
+      "http://127.0.0.1:4173/ocr-paddle.local/PP-OCRv6_tiny_rec.tar",
+      "http://127.0.0.1:4173/ocr-paddle.local/ort-wasm-simd-threaded.jsep.wasm",
+      "http://127.0.0.1:4173/ocr-paddle.local/manifest.json",
+      "http://127.0.0.1:4173/assets/paddle-sdk-BkwZmKwJ.js",
+      "http://127.0.0.1:4173/assets/worker-entry-C9UNuyOJ-EhIzhVdm.js",
+      "http://127.0.0.1:4173/ocr-paddle.local/ort-wasm-simd-threaded.jsep.mjs"
+    ],
+    "storage": {
+      "quota": 10824525318,
+      "usage": 87107078,
+      "usageDetails": {
+        "caches": 87088128,
+        "serviceWorkerRegistrations": 18950
+      }
+    }
+  },
+  "online": {
+    "file": "etiqueta-01.jpg",
+    "engine": "paddle",
+    "preparationMs": 458.29999999981374,
+    "input": {
+      "width": 3000,
+      "height": 4000,
+      "bytes": 15832619,
+      "mime": "image/png"
+    },
+    "elapsedMs": 5690.200000000186,
+    "result": {
+      "engine": "paddle",
+      "text": "OLEO SOJA VITALIV PET 900ML\na partir de 3 unidad\n1 unidade\n39\n49\nRS\nATACADO\nVAREJO\nNesta Embaiagem\nPrepo de 1L RS8,33\n0\n7896497780297\nAr5ES",
+      "lines": [
+        {
+          "text": "OLEO SOJA VITALIV PET 900ML",
+          "confidence": 92.41473851380525,
+          "boundingBox": {
+            "x0": 382,
+            "y0": 1026,
+            "x1": 1864,
+            "y1": 1167
+          }
+        },
+        {
+          "text": "a partir de 3 unidad",
+          "confidence": 94.61906462907791,
+          "boundingBox": {
+            "x0": 486,
+            "y0": 1261,
+            "x1": 1261,
+            "y1": 1445
+          }
+        },
+        {
+          "text": "1 unidade",
+          "confidence": 93.69058012962341,
+          "boundingBox": {
+            "x0": 1751,
+            "y0": 1299,
+            "x1": 2142,
+            "y1": 1393
+          }
+        },
+        {
+          "text": "39",
+          "confidence": 99.96435642242432,
+          "boundingBox": {
+            "x0": 770,
+            "y0": 1372,
+            "x1": 1078,
+            "y1": 1646
+          }
+        },
+        {
+          "text": "49",
+          "confidence": 99.99560117721558,
+          "boundingBox": {
+            "x0": 1789,
+            "y0": 1370,
+            "x1": 2130,
+            "y1": 1642
+          }
+        },
+        {
+          "text": "RS",
+          "confidence": 99.79071319103241,
+          "boundingBox": {
+            "x0": 374,
+            "y0": 1625,
+            "x1": 514,
+            "y1": 1735
+          }
+        },
+        {
+          "text": "ATACADO",
+          "confidence": 97.00500879968915,
+          "boundingBox": {
+            "x0": 707,
+            "y0": 1604,
+            "x1": 1283,
+            "y1": 1748
+          }
+        },
+        {
+          "text": "VAREJO",
+          "confidence": 98.4371135632197,
+          "boundingBox": {
+            "x0": 1724,
+            "y0": 1629,
+            "x1": 2101,
+            "y1": 1731
+          }
+        },
+        {
+          "text": "Nesta Embaiagem",
+          "confidence": 89.18084462483723,
+          "boundingBox": {
+            "x0": 390,
+            "y0": 1739,
+            "x1": 887,
+            "y1": 1809
+          }
+        },
+        {
+          "text": "Prepo de 1L RS8,33",
+          "confidence": 81.75405810276666,
+          "boundingBox": {
+            "x0": 393,
+            "y0": 1809,
+            "x1": 978,
+            "y1": 1883
+          }
+        },
+        {
+          "text": "0",
+          "confidence": 23.164688050746918,
+          "boundingBox": {
+            "x0": 1386,
+            "y0": 1909,
+            "x1": 1534,
+            "y1": 1993
+          }
+        },
+        {
+          "text": "7896497780297",
+          "confidence": 84.96844997772803,
+          "boundingBox": {
+            "x0": 1670,
+            "y0": 1914,
+            "x1": 2033,
+            "y1": 1972
+          }
+        },
+        {
+          "text": "Ar5ES",
+          "confidence": 45.95515340566635,
+          "boundingBox": {
+            "x0": 2001,
+            "y0": 1912,
+            "x1": 2292,
+            "y1": 1970
+          }
+        }
+      ],
+      "confidence": 84.68772081444868,
+      "elapsedMs": 5689.799999999814,
+      "raw": {
+        "image": {
+          "width": 3000,
+          "height": 4000
+        },
+        "items": [
+          {
+            "poly": [
+              [
+                382,
+                1045
+              ],
+              [
+                1862,
+                1026
+              ],
+              [
+                1864,
+                1148
+              ],
+              [
+                384,
+                1167
+              ]
+            ],
+            "text": "OLEO SOJA VITALIV PET 900ML",
+            "score": 0.9241473851380525
+          },
+          {
+            "poly": [
+              [
+                486,
+                1297
+              ],
+              [
+                1255,
+                1261
+              ],
+              [
+                1261,
+                1409
+              ],
+              [
+                493,
+                1445
+              ]
+            ],
+            "text": "a partir de 3 unidad",
+            "score": 0.9461906462907791
+          },
+          {
+            "poly": [
+              [
+                1751,
+                1305
+              ],
+              [
+                2140,
+                1299
+              ],
+              [
+                2142,
+                1387
+              ],
+              [
+                1752,
+                1393
+              ]
+            ],
+            "text": "1 unidade",
+            "score": 0.9369058012962341
+          },
+          {
+            "poly": [
+              [
+                770,
+                1372
+              ],
+              [
+                1078,
+                1372
+              ],
+              [
+                1078,
+                1646
+              ],
+              [
+                770,
+                1646
+              ]
+            ],
+            "text": "39",
+            "score": 0.9996435642242432
+          },
+          {
+            "poly": [
+              [
+                1789,
+                1392
+              ],
+              [
+                2113,
+                1370
+              ],
+              [
+                2130,
+                1620
+              ],
+              [
+                1806,
+                1642
+              ]
+            ],
+            "text": "49",
+            "score": 0.9999560117721558
+          },
+          {
+            "poly": [
+              [
+                374,
+                1625
+              ],
+              [
+                514,
+                1625
+              ],
+              [
+                514,
+                1735
+              ],
+              [
+                374,
+                1735
+              ]
+            ],
+            "text": "RS",
+            "score": 0.9979071319103241
+          },
+          {
+            "poly": [
+              [
+                707,
+                1622
+              ],
+              [
+                1279,
+                1604
+              ],
+              [
+                1283,
+                1730
+              ],
+              [
+                711,
+                1748
+              ]
+            ],
+            "text": "ATACADO",
+            "score": 0.9700500879968915
+          },
+          {
+            "poly": [
+              [
+                1724,
+                1629
+              ],
+              [
+                2101,
+                1629
+              ],
+              [
+                2101,
+                1731
+              ],
+              [
+                1724,
+                1731
+              ]
+            ],
+            "text": "VAREJO",
+            "score": 0.984371135632197
+          },
+          {
+            "poly": [
+              [
+                390,
+                1739
+              ],
+              [
+                887,
+                1743
+              ],
+              [
+                886,
+                1809
+              ],
+              [
+                390,
+                1805
+              ]
+            ],
+            "text": "Nesta Embaiagem",
+            "score": 0.8918084462483724
+          },
+          {
+            "poly": [
+              [
+                393,
+                1811
+              ],
+              [
+                978,
+                1809
+              ],
+              [
+                978,
+                1881
+              ],
+              [
+                393,
+                1883
+              ]
+            ],
+            "text": "Prepo de 1L RS8,33",
+            "score": 0.8175405810276667
+          },
+          {
+            "poly": [
+              [
+                1386,
+                1909
+              ],
+              [
+                1534,
+                1909
+              ],
+              [
+                1534,
+                1993
+              ],
+              [
+                1386,
+                1993
+              ]
+            ],
+            "text": "0",
+            "score": 0.23164688050746918
+          },
+          {
+            "poly": [
+              [
+                1670,
+                1917
+              ],
+              [
+                2032,
+                1914
+              ],
+              [
+                2033,
+                1969
+              ],
+              [
+                1671,
+                1972
+              ]
+            ],
+            "text": "7896497780297",
+            "score": 0.8496844997772803
+          },
+          {
+            "poly": [
+              [
+                2001,
+                1915
+              ],
+              [
+                2291,
+                1912
+              ],
+              [
+                2292,
+                1967
+              ],
+              [
+                2002,
+                1970
+              ]
+            ],
+            "text": "Ar5ES",
+            "score": 0.4595515340566635
+          }
+        ],
+        "metrics": {
+          "detMs": 5222.5999999996275,
+          "recMs": 291.70000000018626,
+          "totalMs": 5560.799999999814,
+          "detectedBoxes": 13,
+          "recognizedCount": 13
+        },
+        "runtime": {
+          "requestedBackend": "wasm",
+          "detProvider": "wasm",
+          "recProvider": "wasm",
+          "webgpuAvailable": false
+        }
+      }
+    },
+    "parsed": {
+      "product": {
+        "name": "OLEO SOJA VITALIV PET 900ML a partir de 3 unidad 1 unidade",
+        "confidence": 1
+      },
+      "prices": [
+        {
+          "valueCents": 833,
+          "type": "REGULAR_PRICE",
+          "confidence": 1,
+          "sourceText": "Prepo de 1L RS8,33"
+        }
+      ],
+      "overallConfidence": 1,
+      "warnings": []
+    },
+    "product": {
+      "rawName": "OLEO SOJA VITALIV PET 900ML a partir de 3 unidad 1 unidade",
+      "productName": "OLEO SOJA VITALIV PET 900ML a partir de 3 unidad 1 unidade",
+      "canonicalName": "OLEO SOJA VITALIV PET A PARTIR DE 3 UNIDAD 1 UNIDADE 900ML",
+      "quantity": 900,
+      "unit": "ML",
+      "attributes": [
+        "3",
+        "1"
+      ],
+      "suggestions": [],
+      "ambiguous": false
+    },
+    "memory": {
+      "usedJSHeapSize": 35807596,
+      "totalJSHeapSize": 43409976,
+      "limitation": "Heap JS aproximado; não representa toda a memória WASM, GPU ou worker."
+    }
+  },
+  "offlinePaddle": {
+    "file": "etiqueta-03.jpg",
+    "engine": "paddle",
+    "preparationMs": 508.70000000018626,
+    "input": {
+      "width": 3000,
+      "height": 4000,
+      "bytes": 19031011,
+      "mime": "image/png"
+    },
+    "elapsedMs": 6518.399999999907,
+    "result": {
+      "engine": "paddle",
+      "text": "MASSA\nEpaguete\nSÊMOLA\nSONY\nRMS.:69934\nÃO DE CONSUMO\nMAC SEM ESPAGUETE ISABELA BOM GOSTO\n4006\nUNIDADE. PAGUE:\nUNIDADES,\nPAGUE:\nRS\nR$\n上\nCADA\nANNa",
+      "lines": [
+        {
+          "text": "MASSA",
+          "confidence": 99.93021011352539,
+          "boundingBox": {
+            "x0": 1159,
+            "y0": 1,
+            "x1": 1309,
+            "y1": 63
+          }
+        },
+        {
+          "text": "Epaguete",
+          "confidence": 96.10903263092041,
+          "boundingBox": {
+            "x0": 1395,
+            "y0": 0,
+            "x1": 1866,
+            "y1": 177
+          }
+        },
+        {
+          "text": "SÊMOLA",
+          "confidence": 95.31517922878265,
+          "boundingBox": {
+            "x0": 1146,
+            "y0": 49,
+            "x1": 1340,
+            "y1": 114
+          }
+        },
+        {
+          "text": "SONY",
+          "confidence": 81.09065592288971,
+          "boundingBox": {
+            "x0": 2002,
+            "y0": 382,
+            "x1": 2078,
+            "y1": 416
+          }
+        },
+        {
+          "text": "RMS.:69934",
+          "confidence": 99.54355359077454,
+          "boundingBox": {
+            "x0": 120,
+            "y0": 1094,
+            "x1": 374,
+            "y1": 1152
+          }
+        },
+        {
+          "text": "ÃO DE CONSUMO",
+          "confidence": 85.52209047170786,
+          "boundingBox": {
+            "x0": 2754,
+            "y0": 1157,
+            "x1": 2947,
+            "y1": 1203
+          }
+        },
+        {
+          "text": "MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+          "confidence": 98.81988559450421,
+          "boundingBox": {
+            "x0": 257,
+            "y0": 1435,
+            "x1": 2526,
+            "y1": 1604
+          }
+        },
+        {
+          "text": "4006",
+          "confidence": 99.41722005605698,
+          "boundingBox": {
+            "x0": 1219,
+            "y0": 1566,
+            "x1": 1535,
+            "y1": 1684
+          }
+        },
+        {
+          "text": "UNIDADE. PAGUE:",
+          "confidence": 96.00354353586833,
+          "boundingBox": {
+            "x0": 364,
+            "y0": 1825,
+            "x1": 1153,
+            "y1": 1955
+          }
+        },
+        {
+          "text": "UNIDADES,",
+          "confidence": 98.00214038954842,
+          "boundingBox": {
+            "x0": 1669,
+            "y0": 1845,
+            "x1": 2169,
+            "y1": 1979
+          }
+        },
+        {
+          "text": "PAGUE:",
+          "confidence": 93.64683131376901,
+          "boundingBox": {
+            "x0": 1678,
+            "y0": 1930,
+            "x1": 2044,
+            "y1": 2040
+          }
+        },
+        {
+          "text": "RS",
+          "confidence": 76.00713074207306,
+          "boundingBox": {
+            "x0": 1516,
+            "y0": 2048,
+            "x1": 1658,
+            "y1": 2163
+          }
+        },
+        {
+          "text": "R$",
+          "confidence": 81.7331850528717,
+          "boundingBox": {
+            "x0": 432,
+            "y0": 2096,
+            "x1": 563,
+            "y1": 2206
+          }
+        },
+        {
+          "text": "上",
+          "confidence": 27.32621729373932,
+          "boundingBox": {
+            "x0": 2888,
+            "y0": 2209,
+            "x1": 2998,
+            "y1": 2314
+          }
+        },
+        {
+          "text": "CADA",
+          "confidence": 99.92736876010895,
+          "boundingBox": {
+            "x0": 2133,
+            "y0": 2587,
+            "x1": 2381,
+            "y1": 2682
+          }
+        },
+        {
+          "text": "ANNa",
+          "confidence": 44.33954060077667,
+          "boundingBox": {
+            "x0": 1554,
+            "y0": 3670,
+            "x1": 1775,
+            "y1": 3731
+          }
+        }
+      ],
+      "confidence": 85.79586158111982,
+      "elapsedMs": 6517.899999999907,
+      "raw": {
+        "image": {
+          "width": 3000,
+          "height": 4000
+        },
+        "items": [
+          {
+            "poly": [
+              [
+                1162,
+                1
+              ],
+              [
+                1309,
+                8
+              ],
+              [
+                1307,
+                63
+              ],
+              [
+                1159,
+                56
+              ]
+            ],
+            "text": "MASSA",
+            "score": 0.9993021011352539
+          },
+          {
+            "poly": [
+              [
+                1402,
+                0
+              ],
+              [
+                1866,
+                8
+              ],
+              [
+                1858,
+                177
+              ],
+              [
+                1395,
+                156
+              ]
+            ],
+            "text": "Epaguete",
+            "score": 0.9610903263092041
+          },
+          {
+            "poly": [
+              [
+                1149,
+                49
+              ],
+              [
+                1340,
+                57
+              ],
+              [
+                1338,
+                114
+              ],
+              [
+                1146,
+                106
+              ]
+            ],
+            "text": "SÊMOLA",
+            "score": 0.9531517922878265
+          },
+          {
+            "poly": [
+              [
+                2002,
+                382
+              ],
+              [
+                2078,
+                382
+              ],
+              [
+                2078,
+                416
+              ],
+              [
+                2002,
+                416
+              ]
+            ],
+            "text": "SONY",
+            "score": 0.8109065592288971
+          },
+          {
+            "poly": [
+              [
+                121,
+                1094
+              ],
+              [
+                374,
+                1097
+              ],
+              [
+                373,
+                1152
+              ],
+              [
+                120,
+                1149
+              ]
+            ],
+            "text": "RMS.:69934",
+            "score": 0.9954355359077454
+          },
+          {
+            "poly": [
+              [
+                2754,
+                1157
+              ],
+              [
+                2947,
+                1157
+              ],
+              [
+                2947,
+                1203
+              ],
+              [
+                2754,
+                1203
+              ]
+            ],
+            "text": "ÃO DE CONSUMO",
+            "score": 0.8552209047170786
+          },
+          {
+            "poly": [
+              [
+                259,
+                1435
+              ],
+              [
+                2526,
+                1466
+              ],
+              [
+                2524,
+                1604
+              ],
+              [
+                257,
+                1573
+              ]
+            ],
+            "text": "MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+            "score": 0.9881988559450422
+          },
+          {
+            "poly": [
+              [
+                1221,
+                1566
+              ],
+              [
+                1535,
+                1569
+              ],
+              [
+                1534,
+                1684
+              ],
+              [
+                1219,
+                1681
+              ]
+            ],
+            "text": "4006",
+            "score": 0.9941722005605698
+          },
+          {
+            "poly": [
+              [
+                366,
+                1825
+              ],
+              [
+                1153,
+                1839
+              ],
+              [
+                1152,
+                1955
+              ],
+              [
+                364,
+                1941
+              ]
+            ],
+            "text": "UNIDADE. PAGUE:",
+            "score": 0.9600354353586833
+          },
+          {
+            "poly": [
+              [
+                1674,
+                1845
+              ],
+              [
+                2169,
+                1864
+              ],
+              [
+                2164,
+                1979
+              ],
+              [
+                1669,
+                1960
+              ]
+            ],
+            "text": "UNIDADES,",
+            "score": 0.9800214038954841
+          },
+          {
+            "poly": [
+              [
+                1683,
+                1930
+              ],
+              [
+                2044,
+                1949
+              ],
+              [
+                2039,
+                2040
+              ],
+              [
+                1678,
+                2021
+              ]
+            ],
+            "text": "PAGUE:",
+            "score": 0.9364683131376902
+          },
+          {
+            "poly": [
+              [
+                1516,
+                2048
+              ],
+              [
+                1658,
+                2048
+              ],
+              [
+                1658,
+                2163
+              ],
+              [
+                1516,
+                2163
+              ]
+            ],
+            "text": "RS",
+            "score": 0.7600713074207306
+          },
+          {
+            "poly": [
+              [
+                435,
+                2096
+              ],
+              [
+                563,
+                2100
+              ],
+              [
+                560,
+                2206
+              ],
+              [
+                432,
+                2202
+              ]
+            ],
+            "text": "R$",
+            "score": 0.817331850528717
+          },
+          {
+            "poly": [
+              [
+                2888,
+                2209
+              ],
+              [
+                2998,
+                2209
+              ],
+              [
+                2998,
+                2314
+              ],
+              [
+                2888,
+                2314
+              ]
+            ],
+            "text": "上",
+            "score": 0.2732621729373932
+          },
+          {
+            "poly": [
+              [
+                2134,
+                2587
+              ],
+              [
+                2381,
+                2589
+              ],
+              [
+                2380,
+                2682
+              ],
+              [
+                2133,
+                2680
+              ]
+            ],
+            "text": "CADA",
+            "score": 0.9992736876010895
+          },
+          {
+            "poly": [
+              [
+                1556,
+                3670
+              ],
+              [
+                1775,
+                3674
+              ],
+              [
+                1773,
+                3731
+              ],
+              [
+                1554,
+                3727
+              ]
+            ],
+            "text": "ANNa",
+            "score": 0.4433954060077667
+          }
+        ],
+        "metrics": {
+          "detMs": 4970,
+          "recMs": 317.10000000009313,
+          "totalMs": 5338.600000000093,
+          "detectedBoxes": 16,
+          "recognizedCount": 16
+        },
+        "runtime": {
+          "requestedBackend": "wasm",
+          "detProvider": "wasm",
+          "recProvider": "wasm",
+          "webgpuAvailable": false
+        }
+      }
+    },
+    "parsed": {
+      "product": {
+        "name": "ÃO DE CONSUMO MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+        "confidence": 1
+      },
+      "prices": [],
+      "overallConfidence": 1,
+      "warnings": []
+    },
+    "product": {
+      "rawName": "ÃO DE CONSUMO MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+      "productName": "ÃO DE CONSUMO MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+      "canonicalName": "ÃO DE CONSUMO MAC SEM ESPAGUETE ISABELA BOM GOSTO",
+      "attributes": [],
+      "suggestions": [],
+      "ambiguous": false
+    },
+    "memory": {
+      "usedJSHeapSize": 35775186,
+      "totalJSHeapSize": 43665046,
+      "limitation": "Heap JS aproximado; não representa toda a memória WASM, GPU ou worker."
+    }
+  },
+  "offlineTesseract": {
+    "file": "etiqueta-03.jpg",
+    "engine": "tesseract",
+    "preparationMs": 459.89999999990687,
+    "input": {
+      "width": 3000,
+      "height": 4000,
+      "bytes": 19031011,
+      "mime": "image/png"
+    },
+    "elapsedMs": 6845.799999999814,
+    "result": {
+      "text": "e” =\nemo\n” e à \" o.\nSs, fe. ; Fúria O -”\nà 4 F A. % = É i-.\nNUAS o. ME sã + * É A\n5 DI LISOS ERA: de ge à . TSE Z\nRS Mino oo COMA AA AR ias eee % \"” REAR y à oo\no E A E o o cao Pã e DO A Ee”) e 5\nPA E o cone E LA e us -\n> ãd is SER etalioaL, o SA | >» A , : :\n+ “Mm é \" 3 e ” a” à da\n3 e ME So Ec ate Se À ; ”. a * * s\nTE Es \" sos “s. ” , * \" A à Ne N +\n. o. À à. & e Píiao 7 * ” E ” ..——. ” > b . %\n4h à pisar il nas e: ' Mr “ -\nP — — E—— P Ê s HA à Tm à » A\nE cs UT ão ” Dr ÁS É tona. << 1)\n2 o eo rea, /,\neo Tae ; s É E no qa ão — FicPSA \"e\n% . > E o 5 fixados. o fetais E TASTE : Tomo: e\ne > E r E——— OTTO, apt coco a. A, = : . sã Es :\naaensanõoe : - é o = - - \" E ATOS E cio: * ZM, FA\n. ão > 5 32 PS À »\né — Be e ” | use ' en. E PA Loc core: AEE:\n: Edo: SETAS FEM TIA Sia Sd bos ” - E = — e e Pr do ——— ee Ami RO SÉ a\nS E ó > aa. é \" ramo PSI\nBE 1 OS +\nÀ CCR ARO 2 é . d\n: FRESCO So eo EANES\nÀ a \" a ts . E.\no Sa ES ENAES CN\nRS NE SS * SE ARA ANO \"\nh NÃ CEAÇE A, , É Nx :\n! = ASSES NS, : AOS i\nATE A Sia ANT Y Ú PE\nSS Aa SAO AN AAA : | oarbdgsiaa ae\n= SAS ENS É TESE rca\nFTA TAIS ; es : : j ———\nMA à ECP s.\nÇ So :\n| CORA ATA * e\n2 Dal Asa e AESA ASAS ES E : FS ESTES so Es\n| Ã. CEARA ERAS AREA ONE CONB NA : ' À , EMT ra\nNC ANS AE A ARE SRRCA E LESS RE TAS SOSPSSO S MMESRSSSNOES AR : : ERA\n- | De ERES SAIA O ARS ONA SAE NR a Lo e ye E à SRA mia tt sita e COLA Mo fusos a ERRA CSN\na) EVAN AAA SOIS ANA ORE TERRAS oo mo antes\n| AIEA Ra ANNE ' j TALES AROS\n: | SUS E * EE A A à : o” o\né À 28 CA, eo E ado *\n: NS | >\n- ; 5 : ! E. A\n— | UNIDADE, PAGUE: Em —\n— E UNIDADE, : DES —-—\n3 À ENA ECA. É AO\nÀ EE RAN co à ADO Ê -\n| ERAS EINS Os : f\nEA Ki e AA ' e“\nEA o\nAA SE\nTE é ;\nSIS CRIA\na? “MR .\nEmo São ANSA ido fica ao ED á SE SEA ão : NTDEAA—A— = —— =\nE E Mesa AAA SA RASTA ASAE NARA EAÇO o A AI AN ANA\nLCA ” &\nSica ca aaa EE o SOR a A aca o RA cin als\n— OD Ms AAA a O a\n=” oo ro ZA à ADA: RIAA E MARIO ENCORE BO ao ERRA Oo MODAS\nÀ ME Me E ENA ae ad Ato , . e. RATOS A SETSEAO amas IADE AiS aos ARADATAAM TANTAS Ea\ne ESSA AAA ENA We PTS CARAS ES\n+ $ : É E Sd Ee\n4 ES bx cabia o : M\n: o do AE &.\nÉ Deo o | h\nuu 3\n, à és + UN a\nÉ PM a\né á ás VE Ses : = Ec:\n",
+      "confidence": 29,
+      "lines": [
+        {
+          "text": "e” =\n",
+          "confidence": 42,
+          "boundingBox": {
+            "x0": 2667,
+            "y0": 97,
+            "x1": 2991,
+            "y1": 122
+          }
+        },
+        {
+          "text": "emo\n",
+          "confidence": 16,
+          "boundingBox": {
+            "x0": 2567,
+            "y0": 166,
+            "x1": 2620,
+            "y1": 183
+          }
+        },
+        {
+          "text": "” e à \" o.\n",
+          "confidence": 36,
+          "boundingBox": {
+            "x0": 114,
+            "y0": 171,
+            "x1": 2987,
+            "y1": 206
+          }
+        },
+        {
+          "text": "Ss, fe. ; Fúria O -”\n",
+          "confidence": 34,
+          "boundingBox": {
+            "x0": 456,
+            "y0": 194,
+            "x1": 2948,
+            "y1": 235
+          }
+        },
+        {
+          "text": "à 4 F A. % = É i-.\n",
+          "confidence": 25,
+          "boundingBox": {
+            "x0": 410,
+            "y0": 217,
+            "x1": 2926,
+            "y1": 303
+          }
+        },
+        {
+          "text": "NUAS o. ME sã + * É A\n",
+          "confidence": 39,
+          "boundingBox": {
+            "x0": 54,
+            "y0": 293,
+            "x1": 2649,
+            "y1": 309
+          }
+        },
+        {
+          "text": "5 DI LISOS ERA: de ge à . TSE Z\n",
+          "confidence": 20,
+          "boundingBox": {
+            "x0": 0,
+            "y0": 307,
+            "x1": 2864,
+            "y1": 340
+          }
+        },
+        {
+          "text": "RS Mino oo COMA AA AR ias eee % \"” REAR y à oo\n",
+          "confidence": 26,
+          "boundingBox": {
+            "x0": 0,
+            "y0": 332,
+            "x1": 2994,
+            "y1": 359
+          }
+        },
+        {
+          "text": "o E A E o o cao Pã e DO A Ee”) e 5\n",
+          "confidence": 27,
+          "boundingBox": {
+            "x0": 55,
+            "y0": 313,
+            "x1": 2493,
+            "y1": 392
+          }
+        },
+        {
+          "text": "PA E o cone E LA e us -\n",
+          "confidence": 37,
+          "boundingBox": {
+            "x0": 2,
+            "y0": 375,
+            "x1": 2218,
+            "y1": 409
+          }
+        },
+        {
+          "text": "> ãd is SER etalioaL, o SA | >» A , : :\n",
+          "confidence": 18,
+          "boundingBox": {
+            "x0": 41,
+            "y0": 398,
+            "x1": 2605,
+            "y1": 438
+          }
+        },
+        {
+          "text": "+ “Mm é \" 3 e ” a” à da\n",
+          "confidence": 38,
+          "boundingBox": {
+            "x0": 1,
+            "y0": 386,
+            "x1": 2640,
+            "y1": 458
+          }
+        },
+        {
+          "text": "3 e ME So Ec ate Se À ; ”. a * * s\n",
+          "confidence": 26,
+          "boundingBox": {
+            "x0": 1,
+            "y0": 438,
+            "x1": 2770,
+            "y1": 481
+          }
+        },
+        {
+          "text": "TE Es \" sos “s. ” , * \" A à Ne N +\n",
+          "confidence": 39,
+          "boundingBox": {
+            "x0": 139,
+            "y0": 460,
+            "x1": 2991,
+            "y1": 514
+          }
+        },
+        {
+          "text": ". o. À à. & e Píiao 7 * ” E ” ..——. ” > b . %\n",
+          "confidence": 44,
+          "boundingBox": {
+            "x0": 16,
+            "y0": 489,
+            "x1": 2810,
+            "y1": 511
+          }
+        },
+        {
+          "text": "4h à pisar il nas e: ' Mr “ -\n",
+          "confidence": 30,
+          "boundingBox": {
+            "x0": 692,
+            "y0": 526,
+            "x1": 2866,
+            "y1": 573
+          }
+        },
+        {
+          "text": "P — — E—— P Ê s HA à Tm à » A\n",
+          "confidence": 44,
+          "boundingBox": {
+            "x0": 640,
+            "y0": 567,
+            "x1": 3000,
+            "y1": 602
+          }
+        },
+        {
+          "text": "E cs UT ão ” Dr ÁS É tona. << 1)\n",
+          "confidence": 28,
+          "boundingBox": {
+            "x0": 547,
+            "y0": 582,
+            "x1": 2497,
+            "y1": 628
+          }
+        },
+        {
+          "text": "2 o eo rea, /,\n",
+          "confidence": 29,
+          "boundingBox": {
+            "x0": 595,
+            "y0": 606,
+            "x1": 2502,
+            "y1": 634
+          }
+        },
+        {
+          "text": "eo Tae ; s É E no qa ão — FicPSA \"e\n",
+          "confidence": 28,
+          "boundingBox": {
+            "x0": 521,
+            "y0": 608,
+            "x1": 2998,
+            "y1": 661
+          }
+        },
+        {
+          "text": "% . > E o 5 fixados. o fetais E TASTE : Tomo: e\n",
+          "confidence": 23,
+          "boundingBox": {
+            "x0": 184,
+            "y0": 637,
+            "x1": 2999,
+            "y1": 702
+          }
+        },
+        {
+          "text": "e > E r E——— OTTO, apt coco a. A, = : . sã Es :\n",
+          "confidence": 25,
+          "boundingBox": {
+            "x0": 247,
+            "y0": 683,
+            "x1": 3000,
+            "y1": 732
+          }
+        },
+        {
+          "text": "aaensanõoe : - é o = - - \" E ATOS E cio: * ZM, FA\n",
+          "confidence": 26,
+          "boundingBox": {
+            "x0": 798,
+            "y0": 700,
+            "x1": 2999,
+            "y1": 747
+          }
+        },
+        {
+          "text": ". ão > 5 32 PS À »\n",
+          "confidence": 23,
+          "boundingBox": {
+            "x0": 301,
+            "y0": 737,
+            "x1": 2710,
+            "y1": 750
+          }
+        },
+        {
+          "text": "é — Be e ” | use ' en. E PA Loc core: AEE:\n",
+          "confidence": 36,
+          "boundingBox": {
+            "x0": 949,
+            "y0": 728,
+            "x1": 3000,
+            "y1": 796
+          }
+        },
+        {
+          "text": ": Edo: SETAS FEM TIA Sia Sd bos ” - E = — e e Pr do ——— ee Ami RO SÉ a\n",
+          "confidence": 26,
+          "boundingBox": {
+            "x0": 63,
+            "y0": 759,
+            "x1": 3000,
+            "y1": 823
+          }
+        },
+        {
+          "text": "S E ó > aa. é \" ramo PSI\n",
+          "confidence": 17,
+          "boundingBox": {
+            "x0": 212,
+            "y0": 808,
+            "x1": 2996,
+            "y1": 891
+          }
+        },
+        {
+          "text": "BE 1 OS +\n",
+          "confidence": 21,
+          "boundingBox": {
+            "x0": 266,
+            "y0": 850,
+            "x1": 2939,
+            "y1": 878
+          }
+        },
+        {
+          "text": "À CCR ARO 2 é . d\n",
+          "confidence": 21,
+          "boundingBox": {
+            "x0": 10,
+            "y0": 927,
+            "x1": 2793,
+            "y1": 949
+          }
+        },
+        {
+          "text": ": FRESCO So eo EANES\n",
+          "confidence": 10,
+          "boundingBox": {
+            "x0": 41,
+            "y0": 1087,
+            "x1": 2117,
+            "y1": 1121
+          }
+        },
+        {
+          "text": "À a \" a ts . E.\n",
+          "confidence": 37,
+          "boundingBox": {
+            "x0": 5,
+            "y0": 1152,
+            "x1": 2089,
+            "y1": 1179
+          }
+        },
+        {
+          "text": "o Sa ES ENAES CN\n",
+          "confidence": 6,
+          "boundingBox": {
+            "x0": 16,
+            "y0": 1171,
+            "x1": 2118,
+            "y1": 1203
+          }
+        },
+        {
+          "text": "RS NE SS * SE ARA ANO \"\n",
+          "confidence": 8,
+          "boundingBox": {
+            "x0": 190,
+            "y0": 1202,
+            "x1": 2179,
+            "y1": 1226
+          }
+        },
+        {
+          "text": "h NÃ CEAÇE A, , É Nx :\n",
+          "confidence": 17,
+          "boundingBox": {
+            "x0": 0,
+            "y0": 1219,
+            "x1": 2058,
+            "y1": 1252
+          }
+        },
+        {
+          "text": "! = ASSES NS, : AOS i\n",
+          "confidence": 21,
+          "boundingBox": {
+            "x0": 0,
+            "y0": 1247,
+            "x1": 2055,
+            "y1": 1281
+          }
+        },
+        {
+          "text": "ATE A Sia ANT Y Ú PE\n",
+          "confidence": 26,
+          "boundingBox": {
+            "x0": 228,
+            "y0": 1337,
+            "x1": 2980,
+            "y1": 1358
+          }
+        },
+        {
+          "text": "SS Aa SAO AN AAA : | oarbdgsiaa ae\n",
+          "confidence": 3,
+          "boundingBox": {
+            "x0": 308,
+            "y0": 1346,
+            "x1": 3000,
+            "y1": 1382
+          }
+        },
+        {
+          "text": "= SAS ENS É TESE rca\n",
+          "confidence": 34,
+          "boundingBox": {
+            "x0": 59,
+            "y0": 1376,
+            "x1": 2998,
+            "y1": 1438
+          }
+        },
+        {
+          "text": "FTA TAIS ; es : : j ———\n",
+          "confidence": 29,
+          "boundingBox": {
+            "x0": 7,
+            "y0": 1444,
+            "x1": 2900,
+            "y1": 1475
+          }
+        },
+        {
+          "text": "MA à ECP s.\n",
+          "confidence": 56,
+          "boundingBox": {
+            "x0": 90,
+            "y0": 1459,
+            "x1": 3000,
+            "y1": 1560
+          }
+        },
+        {
+          "text": "Ç So :\n",
+          "confidence": 21,
+          "boundingBox": {
+            "x0": 101,
+            "y0": 1542,
+            "x1": 540,
+            "y1": 1565
+          }
+        },
+        {
+          "text": "| CORA ATA * e\n",
+          "confidence": 39,
+          "boundingBox": {
+            "x0": 104,
+            "y0": 1562,
+            "x1": 774,
+            "y1": 1632
+          }
+        },
+        {
+          "text": "2 Dal Asa e AESA ASAS ES E : FS ESTES so Es\n",
+          "confidence": 17,
+          "boundingBox": {
+            "x0": 325,
+            "y0": 1589,
+            "x1": 3000,
+            "y1": 1615
+          }
+        },
+        {
+          "text": "| Ã. CEARA ERAS AREA ONE CONB NA : ' À , EMT ra\n",
+          "confidence": 19,
+          "boundingBox": {
+            "x0": 115,
+            "y0": 1602,
+            "x1": 3000,
+            "y1": 1641
+          }
+        },
+        {
+          "text": "NC ANS AE A ARE SRRCA E LESS RE TAS SOSPSSO S MMESRSSSNOES AR : : ERA\n",
+          "confidence": 0,
+          "boundingBox": {
+            "x0": 66,
+            "y0": 1624,
+            "x1": 2904,
+            "y1": 1665
+          }
+        },
+        {
+          "text": "- | De ERES SAIA O ARS ONA SAE NR a Lo e ye E à SRA mia tt sita e COLA Mo fusos a ERRA CSN\n",
+          "confidence": 23,
+          "boundingBox": {
+            "x0": 66,
+            "y0": 1649,
+            "x1": 3000,
+            "y1": 1694
+          }
+        },
+        {
+          "text": "a) EVAN AAA SOIS ANA ORE TERRAS oo mo antes\n",
+          "confidence": 16,
+          "boundingBox": {
+            "x0": 84,
+            "y0": 1669,
+            "x1": 2999,
+            "y1": 1703
+          }
+        },
+        {
+          "text": "| AIEA Ra ANNE ' j TALES AROS\n",
+          "confidence": 29,
+          "boundingBox": {
+            "x0": 126,
+            "y0": 1695,
+            "x1": 3000,
+            "y1": 1724
+          }
+        },
+        {
+          "text": ": | SUS E * EE A A à : o” o\n",
+          "confidence": 28,
+          "boundingBox": {
+            "x0": 78,
+            "y0": 1708,
+            "x1": 2993,
+            "y1": 1760
+          }
+        },
+        {
+          "text": "é À 28 CA, eo E ado *\n",
+          "confidence": 29,
+          "boundingBox": {
+            "x0": 76,
+            "y0": 1736,
+            "x1": 2015,
+            "y1": 1793
+          }
+        },
+        {
+          "text": ": NS | >\n",
+          "confidence": 38,
+          "boundingBox": {
+            "x0": 76,
+            "y0": 1798,
+            "x1": 2882,
+            "y1": 1833
+          }
+        },
+        {
+          "text": "- ; 5 : ! E. A\n",
+          "confidence": 51,
+          "boundingBox": {
+            "x0": 3,
+            "y0": 1823,
+            "x1": 2980,
+            "y1": 1859
+          }
+        },
+        {
+          "text": "— | UNIDADE, PAGUE: Em —\n",
+          "confidence": 72,
+          "boundingBox": {
+            "x0": 95,
+            "y0": 1850,
+            "x1": 3000,
+            "y1": 1933
+          }
+        },
+        {
+          "text": "— E UNIDADE, : DES —-—\n",
+          "confidence": 56,
+          "boundingBox": {
+            "x0": 157,
+            "y0": 1884,
+            "x1": 2735,
+            "y1": 1954
+          }
+        },
+        {
+          "text": "3 À ENA ECA. É AO\n",
+          "confidence": 19,
+          "boundingBox": {
+            "x0": 0,
+            "y0": 1941,
+            "x1": 2836,
+            "y1": 1985
+          }
+        },
+        {
+          "text": "À EE RAN co à ADO Ê -\n",
+          "confidence": 44,
+          "boundingBox": {
+            "x0": 173,
+            "y0": 2003,
+            "x1": 1998,
+            "y1": 2037
+          }
+        },
+        {
+          "text": "| ERAS EINS Os : f\n",
+          "confidence": 29,
+          "boundingBox": {
+            "x0": 179,
+            "y0": 2032,
+            "x1": 1996,
+            "y1": 2057
+          }
+        },
+        {
+          "text": "EA Ki e AA ' e“\n",
+          "confidence": 33,
+          "boundingBox": {
+            "x0": 415,
+            "y0": 2058,
+            "x1": 2854,
+            "y1": 2081
+          }
+        },
+        {
+          "text": "EA o\n",
+          "confidence": 17,
+          "boundingBox": {
+            "x0": 440,
+            "y0": 2183,
+            "x1": 888,
+            "y1": 2214
+          }
+        },
+        {
+          "text": "AA SE\n",
+          "confidence": 10,
+          "boundingBox": {
+            "x0": 463,
+            "y0": 2220,
+            "x1": 560,
+            "y1": 2249
+          }
+        },
+        {
+          "text": "TE é ;\n",
+          "confidence": 9,
+          "boundingBox": {
+            "x0": 511,
+            "y0": 2261,
+            "x1": 844,
+            "y1": 2301
+          }
+        },
+        {
+          "text": "SIS CRIA\n",
+          "confidence": 30,
+          "boundingBox": {
+            "x0": 521,
+            "y0": 2300,
+            "x1": 858,
+            "y1": 2331
+          }
+        },
+        {
+          "text": "a? “MR .\n",
+          "confidence": 42,
+          "boundingBox": {
+            "x0": 328,
+            "y0": 2306,
+            "x1": 2431,
+            "y1": 2490
+          }
+        },
+        {
+          "text": "Emo São ANSA ido fica ao ED á SE SEA ão : NTDEAA—A— = —— =\n",
+          "confidence": 25,
+          "boundingBox": {
+            "x0": 244,
+            "y0": 2497,
+            "x1": 2293,
+            "y1": 2547
+          }
+        },
+        {
+          "text": "E E Mesa AAA SA RASTA ASAE NARA EAÇO o A AI AN ANA\n",
+          "confidence": 2,
+          "boundingBox": {
+            "x0": 249,
+            "y0": 2520,
+            "x1": 3000,
+            "y1": 2558
+          }
+        },
+        {
+          "text": "LCA ” &\n",
+          "confidence": 21,
+          "boundingBox": {
+            "x0": 252,
+            "y0": 2523,
+            "x1": 2985,
+            "y1": 2606
+          }
+        },
+        {
+          "text": "Sica ca aaa EE o SOR a A aca o RA cin als\n",
+          "confidence": 26,
+          "boundingBox": {
+            "x0": 272,
+            "y0": 2672,
+            "x1": 2945,
+            "y1": 2708
+          }
+        },
+        {
+          "text": "— OD Ms AAA a O a\n",
+          "confidence": 27,
+          "boundingBox": {
+            "x0": 193,
+            "y0": 2698,
+            "x1": 2998,
+            "y1": 2753
+          }
+        },
+        {
+          "text": "=” oo ro ZA à ADA: RIAA E MARIO ENCORE BO ao ERRA Oo MODAS\n",
+          "confidence": 13,
+          "boundingBox": {
+            "x0": 159,
+            "y0": 2738,
+            "x1": 2999,
+            "y1": 2782
+          }
+        },
+        {
+          "text": "À ME Me E ENA ae ad Ato , . e. RATOS A SETSEAO amas IADE AiS aos ARADATAAM TANTAS Ea\n",
+          "confidence": 8,
+          "boundingBox": {
+            "x0": 3,
+            "y0": 2772,
+            "x1": 2999,
+            "y1": 2795
+          }
+        },
+        {
+          "text": "e ESSA AAA ENA We PTS CARAS ES\n",
+          "confidence": 21,
+          "boundingBox": {
+            "x0": 1812,
+            "y0": 2834,
+            "x1": 3000,
+            "y1": 2867
+          }
+        },
+        {
+          "text": "+ $ : É E Sd Ee\n",
+          "confidence": 25,
+          "boundingBox": {
+            "x0": 14,
+            "y0": 3003,
+            "x1": 2797,
+            "y1": 3031
+          }
+        },
+        {
+          "text": "4 ES bx cabia o : M\n",
+          "confidence": 20,
+          "boundingBox": {
+            "x0": 46,
+            "y0": 3051,
+            "x1": 2802,
+            "y1": 3082
+          }
+        },
+        {
+          "text": ": o do AE &.\n",
+          "confidence": 29,
+          "boundingBox": {
+            "x0": 53,
+            "y0": 3117,
+            "x1": 2895,
+            "y1": 3157
+          }
+        },
+        {
+          "text": "É Deo o | h\n",
+          "confidence": 27,
+          "boundingBox": {
+            "x0": 6,
+            "y0": 3151,
+            "x1": 1217,
+            "y1": 3206
+          }
+        },
+        {
+          "text": "uu 3\n",
+          "confidence": 25,
+          "boundingBox": {
+            "x0": 803,
+            "y0": 3608,
+            "x1": 1101,
+            "y1": 3651
+          }
+        },
+        {
+          "text": ", à és + UN a\n",
+          "confidence": 37,
+          "boundingBox": {
+            "x0": 777,
+            "y0": 3695,
+            "x1": 1729,
+            "y1": 3712
+          }
+        },
+        {
+          "text": "É PM a\n",
+          "confidence": 31,
+          "boundingBox": {
+            "x0": 51,
+            "y0": 3787,
+            "x1": 1825,
+            "y1": 3829
+          }
+        },
+        {
+          "text": "é á ás VE Ses : = Ec:\n",
+          "confidence": 61,
+          "boundingBox": {
+            "x0": 334,
+            "y0": 3969,
+            "x1": 2862,
+            "y1": 4000
+          }
+        }
+      ]
+    },
+    "parsed": {
+      "product": {
+        "name": "= SAS ENS É TESE rca FTA TAIS ; es : : j MA à ECP s",
+        "confidence": 0.34
+      },
+      "prices": [],
+      "overallConfidence": 0.34,
+      "warnings": []
+    },
+    "product": {
+      "rawName": "= SAS ENS É TESE rca FTA TAIS ; es : : j MA à ECP s",
+      "productName": "= SAS ENS É TESE rca FTA TAIS ; es : : j MA à ECP s",
+      "canonicalName": "= SAS ENS É TESE RCA FTA TAIS ; ES : : J MA À ECP S",
+      "attributes": [],
+      "suggestions": [],
+      "ambiguous": false
+    },
+    "memory": {
+      "usedJSHeapSize": 48714278,
+      "totalJSHeapSize": 54310970,
+      "limitation": "Heap JS aproximado; não representa toda a memória WASM, GPU ou worker."
+    }
+  },
+  "status": "passed"
+}
