@@ -7,14 +7,20 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "ocr:prepare": "node scripts/prepare-paddle.mjs",
+    "ocr:benchmark": "node scripts/benchmark-ocr.mjs",
+    "ocr:offline": "node scripts/check-ocr-offline.mjs"
   },
   "dependencies": {
+    "@paddleocr/paddleocr-js": "0.4.2",
     "@tesseract.js-data/por": "^1.0.0",
+    "onnxruntime-web": "1.24.3",
     "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.13",
+    "playwright": "1.57.0",
     "tailwindcss": "^4.1.13",
     "typescript": "~5.9.2",
     "vite": "^7.1.7",

@@ -4,6 +4,17 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        onlyExplicitManualChunks: true,
+        manualChunks(id) {
+          if (id.includes('commonjsHelpers') || id.includes('vite/preload-helper')) return 'shared-runtime'
+          if (/node_modules\/(?:@paddleocr|@techstark|onnxruntime|clipper-lib|js-yaml)/.test(id)) return 'paddle-sdk'
+        },
+      },
+    },
+  },
   plugins: [
     tailwindcss(),
     viteStaticCopy({
@@ -51,9 +62,17 @@ export default defineConfig({
       workbox: {
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{html,js,css,svg,webmanifest,wasm,gz}'],
+        globIgnores: ['**/paddle-*', '**/worker-entry-*', '**/ort-wasm-*', 'ocr-paddle.local/**'],
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
         navigateFallback: 'index.html',
-        runtimeCaching: [],
+        runtimeCaching: [{
+          urlPattern: ({ url }) => url.origin === self.location.origin && (url.pathname.startsWith('/ocr-paddle.local/') || /^\/assets\/(?:paddle-|worker-entry-|ort-wasm-)/.test(url.pathname)),
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'messo-paddle-042-ort1243-v1',
+            cacheableResponse: { statuses: [200] },
+          },
+        }],
       },
     }),
   ],
